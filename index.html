@@ -1,0 +1,1213 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="맛을 고르고, 3D 빼빼로에 글자와 토핑을 올리고, 예쁘게 포장해서 선물하는 빼빼로 공방">
+<meta property="og:title" content="너만의 빼빼로 공방">
+<meta property="og:description" content="3D 빼빼로를 직접 꾸미고 포장해서 사진으로 남겨봐">
+<meta property="og:type" content="website">
+<style>body{margin:0}[hidden]{display:none!important}img{max-width:100%}</style>
+<title>너만의 빼빼로 공방</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Gaegu:wght@400;700&family=Gamja+Flower&family=Gowun+Dodum&family=Jua&family=Pacifico&display=swap">
+<style>
+/* Layout: one-screen studio. 3D stage + workbench panel (side on desktop, below on phones). Single warm "strawberry milk" look. */
+:root{
+  --milk:#ffe4eb; --milk-2:#ffd2de; --paper:#fff8f6; --cocoa:#3b2219; --cocoa-2:#7a5446;
+  --cherry:#e2384d; --cherry-2:#c22238; --biscuit:#e8b46a; --line:#f0c0cd; --white:#ffffff;
+  --f-display:"Jua","Gowun Dodum",system-ui,sans-serif;
+  --f-body:"Gowun Dodum","Apple SD Gothic Neo","Malgun Gothic",system-ui,sans-serif;
+  --f-hand:"Gaegu","Gowun Dodum",cursive;
+  color-scheme: light;
+}
+html,body{height:100%}
+body{background:var(--milk);color:var(--cocoa);font-family:var(--f-body);font-size:15px;overflow:hidden;-webkit-tap-highlight-color:transparent}
+button{font:inherit;color:inherit;cursor:pointer;border:0;background:none}
+button:focus-visible,input:focus-visible{outline:3px solid var(--cherry);outline-offset:2px}
+.screen{height:100%}
+
+/* ---------- Intro ---------- */
+.intro{overflow-y:auto;position:relative;background:
+  radial-gradient(1200px 600px at 85% 10%, #fff3f6 0, transparent 60%),
+  repeating-linear-gradient(135deg, transparent 0 46px, rgba(226,56,77,.05) 46px 52px), var(--milk)}
+.intro-inner{position:relative;z-index:1;max-width:1100px;margin:0 auto;padding-block:20px 40px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.intro-top{display:flex;flex-wrap:wrap;align-items:center;gap:10px;font-size:13px;color:var(--cocoa-2)}
+.clock{background:var(--paper);border:1.5px solid var(--line);border-radius:999px;padding:5px 12px;font-variant-numeric:tabular-nums}
+.clock b{font-family:var(--f-display);font-weight:400;color:var(--cocoa);margin-left:4px}
+.dist{display:flex;align-items:center;gap:6px;font-family:var(--f-hand);font-size:17px;font-weight:700}
+.dist::before,.dist::after{content:"";width:28px;border-top:2px dashed var(--cherry);opacity:.6}
+.intro-grid{display:grid;grid-template-columns:1.05fr 1fr;gap:40px;align-items:center;margin-top:44px}
+.eyebrow{display:inline-block;font-family:var(--f-display);background:var(--cherry);color:var(--white);padding:6px 14px;border-radius:999px;font-size:15px;letter-spacing:.04em;transform:rotate(-2deg)}
+.intro h1{font-family:var(--f-display);font-weight:400;font-size:clamp(46px,8vw,88px);line-height:1.02;margin:18px 0 18px;text-wrap:balance;color:var(--cocoa)}
+.intro h1 em{font-style:normal;color:var(--cherry);position:relative}
+.lede{font-size:17px;line-height:1.7;max-width:34em;color:var(--cocoa-2)}
+.steps{list-style:none;padding:0;margin:26px 0 0;display:flex;flex-wrap:wrap;gap:8px}
+.steps li{font-family:var(--f-display);font-size:15px;background:var(--paper);border:1.5px solid var(--line);border-radius:12px;padding:8px 12px;display:flex;gap:8px;align-items:center}
+.steps li span{display:grid;place-items:center;width:22px;height:22px;border-radius:50%;background:var(--cocoa);color:var(--paper);font-size:12px}
+.pick-title{font-family:var(--f-display);font-size:22px;margin:0 0 12px}
+.flavors{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.flavor{position:relative;text-align:left;background:var(--paper);border:2px solid var(--line);border-radius:22px;padding:16px 16px 18px;min-height:168px;overflow:hidden;transition:transform .18s, border-color .18s, box-shadow .18s}
+.flavor:hover{transform:translateY(-4px) rotate(-.6deg);border-color:var(--cherry);box-shadow:0 14px 30px -14px rgba(194,34,56,.45)}
+.flavor .fname{font-family:var(--f-display);font-size:26px;display:block}
+.flavor .fdesc{font-size:13px;color:var(--cocoa-2)}
+.flavor .go{position:absolute;right:14px;bottom:12px;font-family:var(--f-display);font-size:13px;color:var(--cherry)}
+.mini-stick{position:absolute;right:-10px;top:58px;width:190px;height:16px;border-radius:8px;transform:rotate(-24deg);transform-origin:right center;
+  background:linear-gradient(90deg,var(--c) 0 72%, #e3aa5e 72% 100%);box-shadow:inset 0 -4px 0 rgba(0,0,0,.12), inset 0 3px 0 rgba(255,255,255,.25)}
+.mini-stick.two{top:88px;right:-30px;transform:rotate(-18deg)}
+.f-almond .mini-stick{background:radial-gradient(circle at 20% 40%, #d8a768 0 3px, transparent 4px) 0 0/22px 16px, linear-gradient(90deg,#5a3220 0 72%, #e3aa5e 72%)}
+.f-nude .mini-stick{background:linear-gradient(180deg,#e3aa5e 0 30%, #4a2516 30% 70%, #e3aa5e 70%)}
+.rain{position:fixed;inset:0;pointer-events:none;overflow:hidden;z-index:0}
+.rain i{position:absolute;top:-80px;width:8px;height:70px;border-radius:4px;background:linear-gradient(180deg,var(--c) 0 75%, #e3aa5e 75%);opacity:.28;animation:fall linear infinite}
+@keyframes fall{to{transform:translateY(120vh) rotate(var(--r))}}
+
+/* ---------- Work area ---------- */
+.work{display:grid;grid-template-columns:minmax(0,1fr) 370px;height:100%}
+.stage{position:relative;min-width:0;min-height:0;overflow:hidden;background:
+  radial-gradient(70% 60% at 50% 45%, #fff6f8 0, #ffe1e9 60%, #ffd0dc 100%)}
+.stage canvas{display:block;width:100%;height:100%;touch-action:none;outline:none}
+.stage.armed canvas{cursor:crosshair}
+.stage-top{position:absolute;top:12px;left:max(12px,env(safe-area-inset-left,0px));right:12px;display:flex;justify-content:space-between;align-items:center;gap:8px;pointer-events:none}
+.stage-top > *{pointer-events:auto}
+.chip-btn{background:var(--paper);border:1.5px solid var(--line);border-radius:999px;padding:7px 13px;font-family:var(--f-display);font-size:14px}
+.chip-btn:hover{border-color:var(--cherry)}
+.progress{display:flex;gap:4px;background:var(--paper);border:1.5px solid var(--line);border-radius:999px;padding:4px;font-family:var(--f-display);font-size:13px}
+.progress span{padding:4px 10px;border-radius:999px;color:var(--cocoa-2)}
+.progress span.on{background:var(--cocoa);color:var(--paper)}
+.hint{position:absolute;left:50%;bottom:14px;transform:translateX(-50%);max-width:calc(100% - 120px);background:var(--cocoa);color:var(--paper);border-radius:14px;padding:8px 14px;font-size:13.5px;line-height:1.4;display:flex;gap:10px;align-items:center;box-shadow:0 10px 24px -12px rgba(59,34,25,.6)}
+.hint button{background:var(--cherry);color:var(--white);border-radius:999px;padding:3px 10px;font-size:12px;white-space:nowrap}
+.view-ctrl{position:absolute;right:max(12px,env(safe-area-inset-right,0px));bottom:14px;display:flex;flex-direction:column;gap:6px}
+.view-ctrl button{width:38px;height:38px;border-radius:12px;background:var(--paper);border:1.5px solid var(--line);font-family:var(--f-display);font-size:18px;display:grid;place-items:center}
+.view-ctrl button.on{background:var(--cherry);color:var(--white);border-color:var(--cherry)}
+.view-ctrl button small{font-size:10px}
+
+.panel{background:var(--paper);border-left:2px solid var(--line);display:flex;flex-direction:column;min-height:0}
+.panel-scroll{overflow-y:auto;flex:1;padding:16px 18px 20px;display:flex;flex-direction:column;gap:18px}
+.blk{display:flex;flex-direction:column;gap:10px}
+.blk-h{display:flex;justify-content:space-between;align-items:center;gap:8px}
+.panel h2{font-family:var(--f-display);font-weight:400;font-size:19px;margin:0}
+.lbl{font-size:12px;color:var(--cocoa-2);letter-spacing:.06em}
+.mini{background:var(--cocoa);color:var(--paper);border-radius:999px;padding:5px 12px;font-size:13px;font-family:var(--f-display)}
+.mini.ghost{background:transparent;color:var(--cocoa-2);border:1.5px solid var(--line)}
+.stick-list{display:flex;flex-wrap:wrap;gap:6px}
+.stick-chip{display:flex;align-items:center;gap:6px;border:1.5px solid var(--line);border-radius:12px;padding:6px 10px;font-size:13px;background:var(--white)}
+.stick-chip i{width:10px;height:22px;border-radius:5px;background:linear-gradient(180deg,var(--c) 0 72%,#e3aa5e 72%)}
+.stick-chip.on{border-color:var(--cherry);box-shadow:0 0 0 2px var(--cherry) inset}
+.seg{display:grid;grid-template-columns:repeat(4,1fr);gap:4px;background:var(--milk);border-radius:12px;padding:4px}
+.seg button{border-radius:9px;padding:7px 0;font-family:var(--f-display);font-size:14px}
+.seg button.on{background:var(--white);box-shadow:0 2px 6px -2px rgba(59,34,25,.3);color:var(--cherry)}
+.row{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.del-stick{font-size:12px;color:var(--cocoa-2);text-decoration:underline;align-self:flex-start}
+.tabs{display:grid;grid-template-columns:repeat(5,1fr);border-bottom:2px solid var(--line)}
+.tabs button{padding:8px 0 9px;font-family:var(--f-display);font-size:15px;color:var(--cocoa-2);border-bottom:3px solid transparent;margin-bottom:-2px}
+.tabs button.on{color:var(--cherry);border-color:var(--cherry)}
+.pane{display:flex;flex-direction:column;gap:10px}
+.txt-in{width:100%;box-sizing:border-box;border:2px solid var(--line);border-radius:14px;padding:10px 12px;font-family:var(--f-display);font-size:20px;background:var(--white);color:var(--cocoa)}
+.quick{display:flex;flex-wrap:wrap;gap:6px}
+.quick button{border:1.5px dashed var(--line);border-radius:999px;padding:4px 10px;font-size:13px;background:var(--white)}
+.quick button:hover{border-color:var(--cherry)}
+.fonts{display:grid;grid-template-columns:repeat(5,1fr);gap:6px}
+.fonts button{border:1.5px solid var(--line);border-radius:10px;padding:6px 0;background:var(--white);font-size:15px;line-height:1.2}
+.fonts button small{display:block;font-family:var(--f-body);font-size:10px;color:var(--cocoa-2)}
+.fonts button.on{border-color:var(--cherry);background:#fff0f3}
+.arm-btn{background:var(--cherry);color:var(--white);border-radius:14px;padding:11px;font-family:var(--f-display);font-size:16px}
+.arm-btn:hover{background:var(--cherry-2)}
+.arm-btn.on{background:var(--cocoa)}
+.grid-items{display:grid;grid-template-columns:repeat(5,1fr);gap:6px}
+.item{aspect-ratio:1;max-width:100%;border:1.5px solid var(--line);border-radius:12px;background:var(--white);display:grid;place-items:center;padding:4px;position:relative}
+.item img{width:84%;height:84%;object-fit:contain}
+.item:hover{border-color:var(--cherry)}
+.item.on{border-color:var(--cherry);box-shadow:0 0 0 2px var(--cherry) inset;background:#fff0f3}
+.spr-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.spr-grid .item{aspect-ratio:auto;padding:8px 4px 6px;gap:2px}
+.spr-grid .item img{width:64px;height:40px}
+.spr-grid .item span{font-size:12px}
+.pad-wrap{display:flex;gap:10px;align-items:flex-start;flex-wrap:wrap}
+#pad{width:200px;height:200px;max-width:100%;border:2px dashed var(--line);border-radius:16px;touch-action:none;cursor:crosshair;
+  background:conic-gradient(#fff 25%,#fdf0f3 0 50%,#fff 0 75%,#fdf0f3 0) 0 0/20px 20px}
+.pad-tools{display:flex;flex-direction:column;gap:8px;min-width:0;flex:1}
+.pad-tools label{font-size:12px;color:var(--cocoa-2);display:flex;flex-direction:column;gap:4px}
+.colors{display:flex;flex-direction:column;gap:6px}
+.swatches{display:flex;flex-wrap:wrap;gap:6px}
+.sw{width:28px;height:28px;border-radius:50%;background:var(--c);border:2px solid var(--white);box-shadow:0 0 0 1.5px var(--line)}
+.sw.on{box-shadow:0 0 0 2.5px var(--cherry)}
+.sel{background:var(--milk);border-radius:16px;padding:12px 14px}
+.sel label{display:grid;grid-template-columns:44px 1fr 42px;align-items:center;gap:8px;font-size:13px}
+.sel output{font-variant-numeric:tabular-nums;font-size:12px;color:var(--cocoa-2);text-align:right}
+input[type=range]{accent-color:var(--cherry);width:100%;min-width:0}
+.btn2{border:1.5px solid var(--line);background:var(--white);border-radius:10px;padding:7px 14px;font-size:13px}
+.btn2.danger{color:var(--cherry-2);border-color:#f3a7b4}
+.panel-foot{padding:12px 18px calc(12px + env(safe-area-inset-bottom,0px));border-top:2px solid var(--line);display:flex;gap:8px}
+.cta{flex:1;background:var(--cocoa);color:var(--paper);border-radius:16px;padding:14px;font-family:var(--f-display);font-size:17px}
+.cta:hover{background:#2a170f}
+.ghost-btn{border:1.5px solid var(--line);border-radius:16px;padding:12px 14px;font-family:var(--f-display);background:var(--white)}
+.form-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.form-grid button{border:1.5px solid var(--line);border-radius:14px;background:var(--white);padding:10px 4px 8px;display:flex;flex-direction:column;align-items:center;gap:4px;font-family:var(--f-display);font-size:14px}
+.form-grid svg{width:44px;height:44px}
+.form-grid button.on{border-color:var(--cherry);box-shadow:0 0 0 2px var(--cherry) inset;background:#fff0f3}
+.pat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.pat-grid button{display:flex;flex-direction:column;gap:5px;align-items:stretch;font-size:12px;text-align:center}
+.pat-grid .pv{aspect-ratio:4/3;max-width:100%;border-radius:12px;border:1.5px solid var(--line);background-size:90px 90px}
+.pat-grid button.on .pv{box-shadow:0 0 0 3px var(--cherry)}
+.photo-frame{position:absolute;border:2px dashed rgba(255,255,255,.95);border-radius:8px;box-shadow:0 0 0 9999px rgba(59,34,25,.22);pointer-events:none}
+.photo-frame::after{content:"사진에 담기는 곳";position:absolute;left:8px;top:6px;font-size:11px;color:var(--white);background:rgba(59,34,25,.55);padding:2px 8px;border-radius:999px}
+.seg.three{grid-template-columns:repeat(3,1fr)}
+.lt-row{display:flex;align-items:center;gap:8px}
+.lt-row span{font-family:var(--f-hand);font-weight:700;font-size:20px;color:var(--cherry);flex:none}
+.lt-row .txt-in,.letter-in{font-family:var(--f-hand);font-weight:700;font-size:20px}
+.letter-in{resize:vertical;min-height:150px;line-height:1.45;width:100%;box-sizing:border-box}
+.tip{font-size:12.5px;color:var(--cocoa-2);line-height:1.5;margin:0}
+
+/* ---------- Final ---------- */
+.modal{position:fixed;inset:0;z-index:30;background:rgba(59,34,25,.55);display:grid;place-items:center;overflow-y:auto;padding-block:20px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.final-card{background:var(--paper);border-radius:26px;max-width:460px;width:100%;display:grid;grid-template-columns:1fr;overflow:hidden;box-shadow:0 30px 60px -20px rgba(0,0,0,.45)}
+.final-card img{width:100%;height:auto;display:block;background:var(--milk)}
+.letter{padding:18px 20px 20px;display:flex;flex-direction:column;gap:12px;background:var(--paper)}
+.letter h2{font-family:var(--f-display);font-weight:400;font-size:26px;margin:0;color:var(--cherry)}
+.letter p{font-family:var(--f-hand);font-size:22px;line-height:34px;margin:0;white-space:pre-line}
+.letter .from{text-align:right}
+.letter .save{font-family:var(--f-body);font-size:12.5px;line-height:1.5;color:var(--cocoa-2);background:var(--milk);border-radius:10px;padding:8px 10px}
+.final-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:auto}
+.final-actions button{flex:1}
+.confetti{position:fixed;inset:0;pointer-events:none;z-index:31;overflow:hidden}
+.confetti i{position:absolute;top:-30px;font-style:normal;color:var(--c);font-size:var(--s);animation:fall 3.6s cubic-bezier(.3,.6,.6,1) forwards}
+.toast{position:fixed;left:50%;top:18px;transform:translate(-50%,calc(-100% - 40px));z-index:40;background:var(--cocoa);color:var(--paper);padding:10px 16px;border-radius:14px;font-size:14px;transition:transform .3s;max-width:calc(100% - 32px)}
+.toast.show{transform:translate(-50%,0)}
+.loading{position:absolute;inset:0;display:grid;place-items:center;font-family:var(--f-display);color:var(--cocoa-2);pointer-events:none}
+
+@media (max-width: 820px){
+  .intro-grid{grid-template-columns:1fr;gap:26px;margin-top:26px}
+  .work{grid-template-columns:minmax(0,1fr);grid-template-rows:52% 48%}
+  .panel{border-left:0;border-top:2px solid var(--line)}
+  .panel-scroll{padding:12px max(16px,env(safe-area-inset-right,0px)) 16px max(16px,env(safe-area-inset-left,0px))}
+  .final-card{grid-template-columns:1fr}
+  .hint{max-width:calc(100% - 80px);bottom:10px;font-size:12.5px}
+}
+@media (max-width: 420px){
+  .flavors{gap:10px}
+  .flavor{min-height:140px;padding:12px}
+  .flavor .fname{font-size:22px}
+  .grid-items{grid-template-columns:repeat(5,1fr)}
+}
+@media (prefers-reduced-motion: reduce){
+  .rain{display:none} .flavor{transition:none} .confetti{display:none}
+}
+</style>
+
+</head>
+<body>
+<!-- ============ INTRO ============ -->
+<section id="intro" class="screen intro">
+  <div class="rain" id="rain" aria-hidden="true"></div>
+  <div class="intro-inner">
+    <header class="intro-top">
+      <span class="clock">부산 <b id="clkS">--:--</b></span>
+      <span class="dist">2,400km</span>
+      <span class="clock">마닐라 <b id="clkM">--:--</b></span>
+    </header>
+    <div class="intro-grid">
+      <div>
+        <span class="eyebrow" id="dday">빼빼로 데이</span>
+        <h1>너만의<br><em>빼빼로</em> 공방</h1>
+        <p class="lede">11월 11일에 옆에 있어 주지 못해서, 대신 같이 만드는 빼빼로를 준비했어. 맛을 고르고, 글자랑 토핑을 올리고, 예쁘게 포장하면 완성이야.</p>
+        <ol class="steps">
+          <li><span>1</span>맛 고르기</li>
+          <li><span>2</span>토핑 꾸미기</li>
+          <li><span>3</span>포장하기</li>
+        </ol>
+      </div>
+      <div>
+        <p class="pick-title">어떤 맛으로 시작할까?</p>
+        <div class="flavors" id="flavorCards"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ STUDIO / WRAP ============ -->
+<section id="work" class="screen work" hidden>
+  <div class="stage" id="stage">
+    <canvas id="c" tabindex="0" aria-label="3D 빼빼로 작업대"></canvas>
+    <div class="loading" id="loading">작업대 준비 중…</div>
+    <div class="stage-top">
+      <button class="chip-btn" id="btnHome">← 처음으로</button>
+      <div class="progress"><span id="pg1" class="on">꾸미기</span><span id="pg2">포장</span><span id="pg3">완성</span></div>
+    </div>
+    <div class="photo-frame" id="photoFrame" hidden></div>
+    <div class="hint" id="hint"><span id="hintTxt">토핑을 고르고 빼빼로를 톡 눌러 붙여봐</span><button id="hintCancel" hidden>취소</button></div>
+    <div class="view-ctrl">
+      <button id="zIn" aria-label="확대">+</button>
+      <button id="zOut" aria-label="축소">−</button>
+      <button id="vReset" aria-label="시점 처음으로">⟲</button>
+      <button id="vSpin" aria-label="자동 회전"><small>회전</small></button>
+    </div>
+  </div>
+
+  <!-- Studio panel -->
+  <aside class="panel" id="panelStudio">
+    <div class="panel-scroll">
+      <section class="blk">
+        <div class="blk-h"><h2>내 빼빼로</h2><button class="mini" id="addStick">+ 하나 더</button></div>
+        <div class="stick-list" id="stickList"></div>
+        <div class="seg" id="flavorSeg"></div>
+        <button class="del-stick" id="delStick">이 빼빼로 빼기</button>
+      </section>
+
+      <section class="blk">
+        <h2>토핑</h2>
+        <div class="tabs" role="tablist" id="tabs">
+          <button data-tab="text" class="on" role="tab">글자</button>
+          <button data-tab="shape" role="tab">모양</button>
+          <button data-tab="model" role="tab">모형</button>
+          <button data-tab="sprinkle" role="tab">스프링클</button>
+          <button data-tab="draw" role="tab">그리기</button>
+        </div>
+        <div class="pane" data-pane="text">
+          <input class="txt-in" id="txtIn" maxlength="14" value="사랑해" aria-label="빼빼로에 쓸 글자">
+          <div class="quick" id="quickTxt"></div>
+          <div class="fonts" id="fontRow"></div>
+          <button class="arm-btn" id="armText">이 글자 올리기</button>
+        </div>
+        <div class="pane" data-pane="shape" hidden>
+          <div class="grid-items" id="shapeGrid"></div>
+        </div>
+        <div class="pane" data-pane="model" hidden>
+          <div class="grid-items" id="modelGrid"></div>
+          <p class="tip">모형을 고르고 빼빼로를 누르면 콕 박혀. 그다음 글자·모양·스프링클·그림을 고르고 모형을 누르면 모형 위에 붙어.</p>
+        </div>
+        <div class="pane" data-pane="sprinkle" hidden>
+          <div class="spr-grid" id="sprGrid"></div>
+          <p class="tip">스프링클은 고른 채로 여러 번 톡톡 뿌릴 수 있어. 다 뿌렸으면 취소를 눌러.</p>
+        </div>
+        <div class="pane" data-pane="draw" hidden>
+          <div class="pad-wrap">
+            <canvas id="pad" width="400" height="400" aria-label="그림 그리는 칸"></canvas>
+            <div class="pad-tools">
+              <label>펜 굵기<input type="range" id="penSize" min="6" max="40" value="16"></label>
+              <button class="btn2" id="padClear">다 지우기</button>
+              <button class="arm-btn" id="armDraw">이 그림 올리기</button>
+            </div>
+          </div>
+        </div>
+        <div class="colors" id="colorBlk">
+          <span class="lbl">아이싱 색</span>
+          <div class="swatches" id="colorRow"></div>
+        </div>
+      </section>
+
+      <section class="blk sel" id="selBox" hidden>
+        <div class="blk-h"><h2>고른 토핑</h2><button class="mini ghost" id="selDone">선택 끝</button></div>
+        <label><span id="sizeLbl">크기</span><input type="range" id="selSize" min="0.3" max="4" step="0.05"><output id="selSizeO"></output></label>
+        <label id="rotWrap">회전<input type="range" id="selRot" min="-180" max="180" step="1"><output id="selRotO"></output></label>
+        <div class="row"><button class="btn2" id="selDup">복제</button><button class="btn2 danger" id="selDel">삭제</button></div>
+        <p class="tip">빼빼로 위에서 토핑을 끌면 자리를 옮길 수 있어. 색을 누르면 바로 바뀌어.</p>
+      </section>
+    </div>
+    <div class="panel-foot"><button class="cta" id="toWrap">다 꾸몄어, 포장하러 가기 →</button></div>
+  </aside>
+
+  <!-- Wrap panel -->
+  <aside class="panel" id="panelWrap" hidden>
+    <div class="panel-scroll">
+      <section class="blk"><h2>포장 모양</h2><div class="form-grid" id="formGrid"></div></section>
+      <section class="blk"><h2>포장지</h2><div class="pat-grid" id="patGrid"></div></section>
+      <section class="blk"><h2>리본</h2><div class="swatches" id="ribbonRow"></div></section>
+      <section class="blk"><h2>태그에 쓸 말</h2><input class="txt-in" id="tagIn" maxlength="12" value="11.11 ♥" aria-label="선물 태그 문구"></section>
+    </div>
+    <div class="panel-foot"><button class="ghost-btn" id="backStudio">← 다시 꾸미기</button><button class="cta" id="finish">사진 찍으러 가기 →</button></div>
+  </aside>
+
+  <!-- Photo panel -->
+  <aside class="panel" id="panelPhoto" hidden>
+    <div class="panel-scroll">
+      <section class="blk">
+        <h2>사진 각도 고르기</h2>
+        <p class="tip">화면을 끌어서 돌리고, 휠이나 두 손가락으로 확대해서 점선 틀 안에 예쁘게 담아줘. 두 손가락으로 끌면 위치도 옮길 수 있어.</p>
+        <div class="seg three" id="angleSeg"><button data-a="front">정면</button><button data-a="high">위에서</button><button data-a="side">옆에서</button></div>
+      </section>
+      <section class="blk">
+        <h2>편지 쓰기</h2>
+        <div class="lt-row"><span>To.</span><input class="txt-in" id="ltTo" maxlength="16" placeholder="받는 사람" aria-label="받는 사람"></div>
+        <textarea class="txt-in letter-in" id="ltBody" maxlength="400" rows="6" placeholder="하고 싶은 말을 적어줘" aria-label="편지 내용"></textarea>
+        <div class="lt-row"><span>From.</span><input class="txt-in" id="ltFrom" maxlength="16" placeholder="보내는 사람" aria-label="보내는 사람"></div>
+        <p class="tip">편지는 사진 아래에 같이 담겨. 비워두면 사진만 남아.</p>
+      </section>
+    </div>
+    <div class="panel-foot"><button class="ghost-btn" id="backWrap">← 포장 고르기</button><button class="cta" id="shoot">찰칵! 완성하기</button></div>
+  </aside>
+</section>
+
+<!-- ============ FINAL ============ -->
+<div class="modal" id="final" hidden>
+  <div class="final-card">
+    <img id="finalImg" alt="완성한 빼빼로 선물">
+    <div class="letter">
+      <h2>선물 완성!</h2>
+      <p class="save">사진을 길게 누르거나 오른쪽 클릭하면 저장할 수 있어.</p>
+      <div class="final-actions">
+        <button class="ghost-btn" id="reWrap">각도 다시 고르기</button>
+        <button class="cta" id="restart">새로 만들기</button>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="confetti" id="confetti" aria-hidden="true"></div>
+<div class="toast" id="toast" role="status"></div>
+
+<script type="importmap">
+{"imports":{
+  "three":"https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
+  "three/addons/":"https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"
+}}
+</script>
+<script type="module">
+import * as THREE from 'three';
+import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+import { RoomEnvironment } from 'three/addons/environments/RoomEnvironment.js';
+import { DecalGeometry } from 'three/addons/geometries/DecalGeometry.js';
+import { RoundedBoxGeometry } from 'three/addons/geometries/RoundedBoxGeometry.js';
+
+const $ = s => document.querySelector(s);
+const mk = (w,h) => { const c=document.createElement('canvas'); c.width=Math.max(1,Math.round(w)); c.height=Math.max(1,Math.round(h)); return c; };
+const clamp = (v,a,b) => Math.min(b,Math.max(a,v));
+const SRGB = THREE.SRGBColorSpace;
+
+/* ================= data ================= */
+const LEN=8, HANDLE=1.7, R_BIS=0.25, R_COAT=0.335, R_NUDE=0.33;
+const FLAVORS = {
+  choco:{name:'초코', desc:'진하고 달콤한 초콜릿', css:'#4a2516'},
+  almond:{name:'아몬드', desc:'고소한 아몬드가 콕콕', css:'#5a3220'},
+  white:{name:'화이트', desc:'부드러운 화이트 초코', css:'#f3e6cf'},
+  nude:{name:'누드', desc:'과자 속에 초코가 쏙', css:'#e3aa5e'},
+};
+const ICING = [['딸기','#ff7aa2'],['체리','#e2384d'],['화이트','#fffaf3'],['밀크초코','#8a5232'],['다크초코','#3d2216'],['레몬','#ffd84d'],['민트','#7fdcc4'],['하늘','#8cc8ff'],['라벤더','#b9a3ff'],['골드','#e6b450']];
+const FONTS = [
+  {id:'jua',name:'동글',css:'"Jua"',w:400,sample:'가'},
+  {id:'gaegu',name:'손글씨',css:'"Gaegu"',w:700,sample:'가'},
+  {id:'gamja',name:'삐뚤',css:'"Gamja Flower"',w:400,sample:'가'},
+  {id:'bhs',name:'굵게',css:'"Black Han Sans"',w:400,sample:'가'},
+  {id:'paci',name:'필기체',css:'"Pacifico","Jua"',w:400,sample:'Aa'},
+];
+const QUICK = ['사랑해','보고싶어','LOVE','11.11','내꺼','I miss you','♥','XOXO'];
+const SPRINKLES = {
+  rainbow:{name:'무지개 스프링클', colors:['#ff6b8b','#ffd84d','#7fdcc4','#8cc8ff','#b9a3ff','#ffffff','#ff9f5a']},
+  pearl:{name:'진주알', colors:['#fff6ee','#ffd9e4','#efe3ff']},
+  gold:{name:'반짝 금가루', colors:['#f2c34e','#eef0f6']},
+  heart:{name:'하트 콘페티', colors:['#ff4f7a','#ff9ab5','#e2384d','#ffffff']},
+  star:{name:'별 콘페티', colors:['#ffd84d','#fff3b0','#ffffff']},
+  coco:{name:'코코넛 눈꽃', colors:['#fffdf7','#fff4e6']},
+};
+
+/* ================= 2D helpers ================= */
+function rgb(hex){ const n=parseInt(hex.slice(1),16); return [n>>16,(n>>8)&255,n&255]; }
+function shade(hex,amt){ const [r,g,b]=rgb(hex); const t=amt<0?0:255,p=Math.abs(amt); const f=v=>Math.round(v+(t-v)*p); return `rgb(${f(r)},${f(g)},${f(b)})`; }
+function lum(hex){ const [r,g,b]=rgb(hex); return (0.299*r+0.587*g+0.114*b)/255; }
+function outlineFor(hex){ return lum(hex)<0.35 ? shade(hex,0.45) : shade(hex,-0.38); }
+function trim(c){
+  const x=c.getContext('2d'), d=x.getImageData(0,0,c.width,c.height).data; let x0=c.width,y0=c.height,x1=-1,y1=-1;
+  for(let y=0;y<c.height;y++) for(let i=0;i<c.width;i++){ if(d[(y*c.width+i)*4+3]>8){ if(i<x0)x0=i; if(i>x1)x1=i; if(y<y0)y0=y; if(y>y1)y1=y; } }
+  if(x1<0) return null;
+  const o=mk(x1-x0+1,y1-y0+1); o.getContext('2d').drawImage(c,-x0,-y0); return o;
+}
+function outlined(src, color, w){
+  const pad=w+4, c=mk(src.width+pad*2, src.height+pad*2), x=c.getContext('2d');
+  const sil=mk(src.width,src.height), sx=sil.getContext('2d');
+  sx.drawImage(src,0,0); sx.globalCompositeOperation='source-in'; sx.fillStyle=color; sx.fillRect(0,0,sil.width,sil.height);
+  for(const rr of [w, w*0.55]) for(let i=0;i<20;i++){ const a=i/20*Math.PI*2; x.drawImage(sil,pad+Math.cos(a)*rr,pad+Math.sin(a)*rr); }
+  x.drawImage(src,pad,pad);
+  x.globalCompositeOperation='source-atop';
+  const g=x.createLinearGradient(0,0,0,c.height); g.addColorStop(0,'rgba(255,255,255,.38)'); g.addColorStop(.42,'rgba(255,255,255,0)'); g.addColorStop(1,'rgba(0,0,0,.12)');
+  x.fillStyle=g; x.fillRect(0,0,c.width,c.height);
+  return c;
+}
+function heartPath(cx,cy,s){
+  const p=new Path2D(); p.moveTo(cx,cy+85*s);
+  p.bezierCurveTo(cx-90*s,cy+25*s,cx-118*s,cy-25*s,cx-88*s,cy-65*s);
+  p.bezierCurveTo(cx-58*s,cy-105*s,cx-8*s,cy-95*s,cx,cy-50*s);
+  p.bezierCurveTo(cx+8*s,cy-95*s,cx+58*s,cy-105*s,cx+88*s,cy-65*s);
+  p.bezierCurveTo(cx+118*s,cy-25*s,cx+90*s,cy+25*s,cx,cy+85*s); p.closePath(); return p;
+}
+function starPath(cx,cy,ro,ri,n=5,rot=-Math.PI/2){
+  const p=new Path2D(); for(let i=0;i<n*2;i++){ const r=i%2?ri:ro, a=rot+i*Math.PI/n; const X=cx+Math.cos(a)*r, Y=cy+Math.sin(a)*r; i?p.lineTo(X,Y):p.moveTo(X,Y);} p.closePath(); return p;
+}
+const circle=(x,cx,cy,r)=>{x.beginPath();x.arc(cx,cy,r,0,Math.PI*2);x.fill();};
+const DARK='#3b2219';
+const SHAPES = {
+  heart:{name:'하트', draw(x,c){ x.fillStyle=c; x.fill(heartPath(128,138,1)); }},
+  twohearts:{name:'두 하트', draw(x,c){ x.fillStyle=shade(c,0.35); x.fill(heartPath(165,105,.55)); x.fillStyle=c; x.fill(heartPath(105,150,.7)); }},
+  star:{name:'별', draw(x,c){ x.fillStyle=c; x.strokeStyle=c; x.lineJoin='round'; x.lineWidth=22; const p=starPath(128,138,104,46); x.fill(p); x.stroke(p); }},
+  sparkle:{name:'반짝', draw(x,c){ x.fillStyle=c; const s=(cx,cy,r)=>{const p=new Path2D(); p.moveTo(cx,cy-r); p.quadraticCurveTo(cx+r*.12,cy-r*.12,cx+r,cy); p.quadraticCurveTo(cx+r*.12,cy+r*.12,cx,cy+r); p.quadraticCurveTo(cx-r*.12,cy+r*.12,cx-r,cy); p.quadraticCurveTo(cx-r*.12,cy-r*.12,cx,cy-r); x.fill(p);}; s(118,138,100); s(205,52,40); }},
+  flower:{name:'꽃', draw(x,c){ x.fillStyle=c; for(let i=0;i<5;i++){const a=-Math.PI/2+i*Math.PI*2/5; circle(x,128+Math.cos(a)*58,128+Math.sin(a)*58,50);} x.fillStyle=lum(c)>.8?'#ffb3c7':'#ffd84d'; circle(x,128,128,36); }},
+  clover:{name:'클로버', draw(x,c){ x.strokeStyle=c; x.lineWidth=16; x.lineCap='round'; x.beginPath(); x.moveTo(128,130); x.quadraticCurveTo(150,200,185,236); x.stroke(); x.fillStyle=c; for(let i=0;i<4;i++){ x.save(); x.translate(128,122); x.rotate(i*Math.PI/2+Math.PI/4); x.fill(heartPath(0,-44,.46)); x.restore(); } }},
+  cloud:{name:'구름', draw(x,c){ x.fillStyle=c; circle(x,80,150,46); circle(x,124,112,60); circle(x,180,140,52); circle(x,130,160,48); x.beginPath(); x.roundRect(64,140,150,56,28); x.fill(); }},
+  smile:{name:'스마일', draw(x,c){ x.fillStyle=c; circle(x,128,128,104); x.fillStyle=DARK; x.beginPath(); x.ellipse(94,108,12,17,0,0,Math.PI*2); x.ellipse(162,108,12,17,0,0,Math.PI*2); x.fill(); x.strokeStyle=DARK; x.lineWidth=11; x.lineCap='round'; x.beginPath(); x.arc(128,132,44,.18*Math.PI,.82*Math.PI); x.stroke(); x.fillStyle='rgba(255,110,150,.65)'; circle(x,70,148,16); circle(x,186,148,16); }},
+  bow:{name:'리본', draw(x,c){ x.fillStyle=c; x.beginPath(); x.moveTo(128,120); x.bezierCurveTo(90,40,20,60,30,120); x.bezierCurveTo(38,175,100,160,128,120); x.fill(); x.beginPath(); x.moveTo(128,120); x.bezierCurveTo(166,40,236,60,226,120); x.bezierCurveTo(218,175,156,160,128,120); x.fill(); x.beginPath(); x.moveTo(118,128); x.lineTo(78,226); x.lineTo(104,212); x.lineTo(118,232); x.lineTo(132,140); x.fill(); x.beginPath(); x.moveTo(138,128); x.lineTo(178,226); x.lineTo(152,212); x.lineTo(138,232); x.lineTo(124,140); x.fill(); x.fillStyle=shade(c,-.15); circle(x,128,122,26); }},
+  moon:{name:'달', draw(x,c){ x.fillStyle=c; circle(x,128,130,100); x.globalCompositeOperation='destination-out'; circle(x,176,96,84); x.globalCompositeOperation='source-over'; }},
+  crown:{name:'왕관', draw(x,c){ x.fillStyle=c; x.strokeStyle=c; x.lineJoin='round'; x.lineWidth=16; const p=new Path2D(); p.moveTo(40,196); p.lineTo(36,84); p.lineTo(86,134); p.lineTo(128,58); p.lineTo(170,134); p.lineTo(220,84); p.lineTo(216,196); p.closePath(); x.fill(p); x.stroke(p); x.fillStyle='#fff'; circle(x,128,160,13); circle(x,80,166,9); circle(x,176,166,9); }},
+  cat:{name:'고양이', draw(x,c){ x.fillStyle=c; x.beginPath(); x.moveTo(48,120); x.lineTo(62,32); x.lineTo(118,84); x.closePath(); x.moveTo(208,120); x.lineTo(194,32); x.lineTo(138,84); x.closePath(); x.fill(); x.beginPath(); x.ellipse(128,148,96,80,0,0,Math.PI*2); x.fill(); x.fillStyle=DARK; circle(x,96,140,11); circle(x,160,140,11); x.fillStyle='#ff8fae'; x.beginPath(); x.moveTo(118,160); x.lineTo(138,160); x.lineTo(128,172); x.fill(); x.strokeStyle=DARK; x.lineWidth=5; x.lineCap='round'; for(const s of [-1,1]){ x.beginPath(); x.moveTo(128+s*36,170); x.lineTo(128+s*82,160); x.moveTo(128+s*36,180); x.lineTo(128+s*80,186); x.stroke(); } }},
+  paw:{name:'발바닥', draw(x,c){ x.fillStyle=c; x.beginPath(); x.ellipse(128,168,60,48,0,0,Math.PI*2); x.fill(); circle(x,62,106,24); circle(x,102,70,26); circle(x,154,70,26); circle(x,194,106,24); }},
+  plane:{name:'비행기', draw(x,c){ x.fillStyle=c; x.save(); x.translate(128,128); x.rotate(-0.62); x.beginPath(); x.roundRect(-112,-17,224,34,17); x.fill(); x.beginPath(); x.moveTo(-14,-12); x.lineTo(30,-12); x.lineTo(-30,-104); x.lineTo(-52,-104); x.closePath(); x.moveTo(-14,12); x.lineTo(30,12); x.lineTo(-30,104); x.lineTo(-52,104); x.closePath(); x.moveTo(-104,-8); x.lineTo(-84,-8); x.lineTo(-104,-52); x.lineTo(-118,-52); x.closePath(); x.moveTo(-104,8); x.lineTo(-84,8); x.lineTo(-104,52); x.lineTo(-118,52); x.closePath(); x.fill(); x.fillStyle='rgba(255,255,255,.75)'; for(let i=0;i<4;i++) circle(x,20+i*20,0,5); x.restore(); }},
+  letter:{name:'편지', draw(x,c){ x.fillStyle=c; x.beginPath(); x.roundRect(30,62,196,136,14); x.fill(); x.strokeStyle=shade(c,-.2); x.lineWidth=7; x.lineJoin='round'; x.beginPath(); x.moveTo(36,70); x.lineTo(128,140); x.lineTo(220,70); x.stroke(); x.fillStyle=lum(c)>.6?'#e2384d':'#ffffff'; x.fill(heartPath(128,140,.3)); }},
+};
+const contentCache=new Map();
+function contentCanvas(t){
+  const k=t.content.type==='draw'? null : `${t.content.type}|${t.content.id||t.content.text}|${t.content.font||''}|${t.color}`;
+  if(k && contentCache.has(k)) return contentCache.get(k);
+  let out;
+  if(t.content.type==='text'){
+    const f=FONTS.find(f=>f.id===t.content.font)||FONTS[0];
+    let fs=150; const m=mk(4,4).getContext('2d'); m.font=`${f.w} ${fs}px ${f.css}`; let w=m.measureText(t.content.text).width;
+    if(w>1300){ fs=Math.floor(fs*1300/w); m.font=`${f.w} ${fs}px ${f.css}`; w=m.measureText(t.content.text).width; }
+    const c=mk(w+60, fs*2), x=c.getContext('2d'); x.font=`${f.w} ${fs}px ${f.css}`; x.textAlign='center'; x.textBaseline='middle'; x.fillStyle=t.color; x.fillText(t.content.text,c.width/2,c.height/2);
+    out=outlined(trim(c)||mk(4,4), outlineFor(t.color), Math.max(7,fs*0.075));
+  } else if(t.content.type==='shape'){
+    const c=mk(256,256), x=c.getContext('2d'); SHAPES[t.content.id].draw(x,t.color);
+    out=outlined(trim(c)||c, outlineFor(t.color), 10);
+  } else {
+    out=t.content.canvas;
+  }
+  if(k) contentCache.set(k,out);
+  return out;
+}
+
+/* ================= patterns ================= */
+function seeded(seed){ let a=seed>>>0; return ()=>{ a|=0; a=a+0x6D2B79F5|0; let t=Math.imul(a^a>>>15,1|a); t=t+Math.imul(t^t>>>7,61|t)^t; return ((t^t>>>14)>>>0)/4294967296; }; }
+const PATTERNS = [
+  {id:'heart', name:'핑크 하트', bg:'#ffc3d2', draw(x,S,clear){ for(let r=0;r<4;r++)for(let c=0;c<4;c++){ const cx=(c+.5+(r%2)*.5)*S/4, cy=(r+.5)*S/4; x.fillStyle=(r+c)%2?(clear?'rgba(255,111,145,.75)':'#ff6f91'):(clear?'rgba(255,255,255,.85)':'#ffffff'); x.fill(heartPath(cx%S,cy,.2)); if(cx>S-30) x.fill(heartPath(cx-S,cy,.2)); } }},
+  {id:'gingham', name:'체리 깅엄', bg:'#fff4f4', draw(x,S,clear){ const a=clear?.35:.42; x.fillStyle=`rgba(226,56,77,${a})`; for(let i=0;i<4;i++){ x.fillRect(i*S/4,0,S/8,S); x.fillRect(0,i*S/4,S,S/8);} }},
+  {id:'dots', name:'민트 땡땡이', bg:'#bfeedf', draw(x,S,clear){ x.fillStyle=clear?'rgba(127,220,196,.85)':'#ffffff'; for(let r=0;r<6;r++)for(let c=0;c<6;c++){ circle(x,((c+.5+(r%2)*.5)*S/6)%S,(r+.5)*S/6,S/28); } }},
+  {id:'night', name:'별밤', bg:'#24306a', draw(x,S,clear){ const R=seeded(7); x.fillStyle=clear?'rgba(242,195,78,.9)':'#f6cf5c'; for(let i=0;i<14;i++){ const cx=R()*S, cy=R()*S, s=10+R()*16; x.fill(starPath(cx,cy,s,s*.45)); } x.fillStyle=clear?'rgba(140,200,255,.8)':'rgba(255,255,255,.7)'; for(let i=0;i<40;i++) circle(x,R()*S,R()*S,1.5+R()*2); }},
+  {id:'kraft', name:'크라프트', bg:'#cf9f68', draw(x,S,clear){ const R=seeded(3); if(!clear){ x.strokeStyle='rgba(120,70,30,.18)'; x.lineWidth=1.2; for(let i=0;i<260;i++){ const X=R()*S,Y=R()*S; x.beginPath(); x.moveTo(X,Y); x.lineTo(X+R()*18-9,Y+R()*18-9); x.stroke(); } } x.fillStyle=clear?'rgba(226,56,77,.8)':'#d8394d'; x.font='700 34px "Gaegu", cursive'; x.textAlign='center'; for(let r=0;r<3;r++)for(let c=0;c<3;c++){ const cx=(c+.5+(r%2)*.33)*S/3, cy=(r+.5)*S/3; if(c%2===r%2){ x.fill(heartPath(cx%S,cy,.16)); } else { x.save(); x.translate(cx%S,cy); x.rotate(-.2); x.fillText('11.11',0,10); x.restore(); } } }},
+  {id:'manila', name:'마닐라 노을', bg:null, noRepeatY:true, draw(x,S,clear){ if(!clear){ const g=x.createLinearGradient(0,0,0,S); g.addColorStop(0,'#ffb07a'); g.addColorStop(.55,'#ff7f9e'); g.addColorStop(1,'#8f6ad8'); x.fillStyle=g; x.fillRect(0,0,S,S); x.fillStyle='#ffe28a'; circle(x,S*.5,S*.62,S*.13); x.fillStyle='rgba(255,255,255,.35)'; for(let i=0;i<5;i++) x.fillRect(S*.32,S*.7+i*14,S*.36,4);} const tc=clear?'rgba(80,40,70,.75)':'#4a2346'; x.fillStyle=tc; x.strokeStyle=tc; for(const [px,h] of [[S*.15,S*.48],[S*.82,S*.42]]){ x.lineWidth=10; x.beginPath(); x.moveTo(px,S); x.quadraticCurveTo(px+20,S-h*.6,px+6,S-h); x.stroke(); for(let k=0;k<6;k++){ const a=k/6*Math.PI*2; x.beginPath(); x.ellipse(px+6+Math.cos(a)*34,S-h+Math.sin(a)*14,40,9,a,0,Math.PI*2); x.fill(); } } }},
+  {id:'cloud', name:'라벤더 구름', bg:'#d8cbff', draw(x,S,clear){ x.fillStyle=clear?'rgba(185,163,255,.8)':'#ffffff'; for(const [cx,cy] of [[S*.25,S*.28],[S*.75,S*.72],[S*.78,S*.2],[S*.22,S*.8]]){ circle(x,cx-26,cy+8,22); circle(x,cx,cy-4,30); circle(x,cx+28,cy+8,22); x.fillRect(cx-40,cy+8,70,22); } }},
+  {id:'lemon', name:'레몬 스트라이프', bg:'#fff6c4', draw(x,S,clear){ x.fillStyle=clear?'rgba(255,216,77,.55)':'#ffe36b'; for(let i=0;i<8;i+=2) x.fillRect(i*S/8,0,S/8,S); x.fillStyle=clear?'rgba(255,255,255,.7)':'#ffffff'; for(let i=1;i<8;i+=2) for(let j=0;j<4;j++) circle(x,(i+.5)*S/8,(j+.5)*S/4,6); }},
+  {id:'choco', name:'초코 체커', bg:'#6b3b26', draw(x,S,clear){ x.fillStyle=clear?'rgba(107,59,38,.55)':'#8c5434'; const n=6; for(let r=0;r<n;r++)for(let c=0;c<n;c++) if((r+c)%2) x.fillRect(c*S/n,r*S/n,S/n,S/n); x.fillStyle=clear?'rgba(255,154,181,.9)':'#ff9ab5'; for(let r=0;r<n;r++)for(let c=0;c<n;c++) if(!((r+c)%2)) x.fill(heartPath((c+.5)*S/n,(r+.5)*S/n,.09)); }},
+];
+function patternCanvas(p, clear, S=512){
+  const c=mk(S,S), x=c.getContext('2d');
+  if(clear){ x.fillStyle='rgba(255,255,255,0.09)'; x.fillRect(0,0,S,S); } else if(p.bg){ x.fillStyle=p.bg; x.fillRect(0,0,S,S); }
+  p.draw(x,S,clear); return c;
+}
+
+/* ================= three setup ================= */
+const canvas=$('#c'), stage=$('#stage');
+const renderer=new THREE.WebGLRenderer({canvas, antialias:true, alpha:true, preserveDrawingBuffer:true});
+renderer.setPixelRatio(Math.min(devicePixelRatio,2));
+renderer.outputColorSpace=SRGB; renderer.toneMapping=THREE.ACESFilmicToneMapping; renderer.toneMappingExposure=0.92;
+renderer.setClearColor(0x000000,0);
+const scene=new THREE.Scene();
+const pmrem=new THREE.PMREMGenerator(renderer);
+scene.environment=pmrem.fromScene(new RoomEnvironment(renderer),0.04).texture;
+scene.add(new THREE.HemisphereLight(0xfff1f4,0xd9a0b0,0.6));
+const sun=new THREE.DirectionalLight(0xffffff,1.0); sun.position.set(4,9,7); scene.add(sun);
+const camera=new THREE.PerspectiveCamera(34,1,0.1,200);
+camera.position.set(0,1.5,13);
+
+// our pointer listener first, so it can claim drags before OrbitControls
+canvas.addEventListener('pointerdown', onDown);
+const controls=new OrbitControls(camera,canvas);
+controls.enableDamping=true; controls.dampingFactor=0.08; controls.minDistance=3; controls.maxDistance=34;
+controls.maxPolarAngle=Math.PI*0.88; controls.autoRotateSpeed=2.2;
+const goal=new THREE.Vector3();
+
+function texFrom(c, rep){ const t=new THREE.CanvasTexture(c); t.colorSpace=SRGB; t.anisotropy=8; if(rep){ t.wrapS=t.wrapT=THREE.RepeatWrapping; t.repeat.set(rep[0],rep[1]); } return t; }
+function biscuitCanvas(){ const S=256,c=mk(S,S),x=c.getContext('2d'); x.fillStyle='#dea561'; x.fillRect(0,0,S,S); const R=seeded(11);
+  for(let i=0;i<12;i++){ x.fillStyle=`rgba(${R()>.5?'255,230,180':'150,90,40'},${.08+R()*.08})`; x.fillRect(i*S/12,0,S/24,S); }
+  for(let i=0;i<900;i++){ x.fillStyle=R()>.5?'rgba(140,80,35,.35)':'rgba(255,235,190,.35)'; x.fillRect(R()*S,R()*S,1+R()*2.5,1+R()*2.5); } return c; }
+const biscuitTex=texFrom(biscuitCanvas(),[1,4]);
+const nudeCap=(()=>{ const c=mk(128,128),x=c.getContext('2d'); x.fillStyle='#d79b56'; x.fillRect(0,0,128,128); x.fillStyle='#3a1d12'; circle(x,64,64,40); return texFrom(c); })();
+const M = {
+  biscuit:new THREE.MeshStandardMaterial({map:biscuitTex, roughness:.85}),
+  nudeSide:new THREE.MeshStandardMaterial({map:biscuitTex, roughness:.8}),
+  nudeCap:new THREE.MeshStandardMaterial({map:nudeCap, roughness:.7}),
+  choco:new THREE.MeshPhysicalMaterial({color:0x4a2516, roughness:.34, clearcoat:.7, clearcoatRoughness:.25}),
+  almond:new THREE.MeshPhysicalMaterial({color:0x5c3421, roughness:.45, clearcoat:.4, clearcoatRoughness:.4}),
+  white:new THREE.MeshPhysicalMaterial({color:0xf4ead8, roughness:.4, clearcoat:.5, clearcoatRoughness:.3}),
+  almondBit:new THREE.MeshStandardMaterial({color:0xd6a167, roughness:.85, flatShading:true}),
+};
+// coat (lathe) with a drippy lower edge
+const coatGeo=(()=>{ const pts=[[0.252,HANDLE-0.1],[0.31,HANDLE-0.02],[R_COAT,HANDLE+0.1],[R_COAT,LEN-0.2],[0.318,LEN-0.07],[0.25,LEN+0.01],[0.13,LEN+0.045],[0,LEN+0.05]].map(([r,y])=>new THREE.Vector2(r,y));
+  const g=new THREE.LatheGeometry(pts,64); const p=g.attributes.position;
+  for(let i=0;i<p.count;i++){ const y=p.getY(i); if(y<HANDLE+0.15){ const a=Math.atan2(p.getX(i),p.getZ(i)); const f=clamp((HANDLE+0.15-y)/0.25,0,1); p.setY(i, y-(0.08*(0.5+0.5*Math.sin(a*5+1))+0.04*Math.sin(a*11))*f); } }
+  g.computeVertexNormals(); g.userData.keep=true; return g; })();
+const rodGeo=(()=>{ const g=new THREE.CylinderGeometry(R_BIS,R_BIS,LEN-0.1,36); g.translate(0,(LEN-0.1)/2,0); g.userData.keep=true; return g; })();
+const nudeGeo=(()=>{ const g=new THREE.CylinderGeometry(R_NUDE,R_NUDE,LEN,44); g.translate(0,LEN/2,0); g.userData.keep=true; return g; })();
+const almondGeo=(()=>{ const g=new THREE.IcosahedronGeometry(0.055,0); g.scale(1,.5,.8); g.userData.keep=true; return g; })();
+const blobTex=(()=>{ const c=mk(128,128),x=c.getContext('2d'); const g=x.createRadialGradient(64,64,0,64,64,64); g.addColorStop(0,'rgba(120,40,60,.35)'); g.addColorStop(1,'rgba(120,40,60,0)'); x.fillStyle=g; x.fillRect(0,0,128,128); return texFrom(c); })();
+const blobGeo=(()=>{ const g=new THREE.PlaneGeometry(1.4,1.4); g.rotateX(-Math.PI/2); g.userData.keep=true; return g; })();
+const blobMat=new THREE.MeshBasicMaterial({map:blobTex, transparent:true, depthWrite:false});
+
+const studioRoot=new THREE.Group(); scene.add(studioRoot);
+const wrapRoot=new THREE.Group(); wrapRoot.position.y=-LEN/2; scene.add(wrapRoot);
+const floor=(()=>{ const c=mk(256,256),x=c.getContext('2d'); const g=x.createRadialGradient(128,128,0,128,128,128); g.addColorStop(0,'rgba(255,255,255,.75)'); g.addColorStop(.6,'rgba(255,240,244,.35)'); g.addColorStop(1,'rgba(255,240,244,0)'); x.fillStyle=g; x.fillRect(0,0,256,256);
+  const m=new THREE.Mesh(new THREE.CircleGeometry(10,64), new THREE.MeshBasicMaterial({map:texFrom(c),transparent:true,depthWrite:false})); m.rotation.x=-Math.PI/2; m.position.y=-LEN/2-0.01; return m; })();
+scene.add(floor);
+
+// active marker: small heart above the active stick
+function heartShape3(s){ const sh=new THREE.Shape(); sh.moveTo(0,-0.85*s); sh.bezierCurveTo(-0.9*s,-0.25*s,-1.18*s,0.25*s,-0.88*s,0.65*s); sh.bezierCurveTo(-0.58*s,1.05*s,-0.08*s,0.95*s,0,0.5*s); sh.bezierCurveTo(0.08*s,0.95*s,0.58*s,1.05*s,0.88*s,0.65*s); sh.bezierCurveTo(1.18*s,0.25*s,0.9*s,-0.25*s,0,-0.85*s); return sh; }
+function starShape3(ro,ri){ const sh=new THREE.Shape(); for(let i=0;i<10;i++){ const r=i%2?ri:ro, a=Math.PI/2+i*Math.PI/5; i?sh.lineTo(Math.cos(a)*r,Math.sin(a)*r):sh.moveTo(Math.cos(a)*r,Math.sin(a)*r);} return sh; }
+const marker=new THREE.Mesh(new THREE.ExtrudeGeometry(heartShape3(0.2),{depth:0.08,bevelEnabled:true,bevelSize:.03,bevelThickness:.03,bevelSegments:3}).center(), new THREE.MeshPhysicalMaterial({color:0xe2384d,roughness:.3,clearcoat:1}));
+marker.visible=false;
+const selHelper=new THREE.BoxHelper(undefined,0xe2384d); selHelper.material.depthTest=false; selHelper.material.transparent=true; selHelper.material.opacity=.9; selHelper.renderOrder=10; selHelper.visible=false; scene.add(selHelper);
+
+function disposeObj(o){ o.traverse(n=>{ if(n.geometry && !n.geometry.userData.keep) n.geometry.dispose(); if(n.material && !n.material.userData?.keep){ const ms=Array.isArray(n.material)?n.material:[n.material]; ms.forEach(m=>{ if(m.userData.keep) return; if(m.map && !m.map.userData.keep) m.map.dispose(); m.dispose(); }); } }); }
+Object.values(M).forEach(m=>m.userData.keep=true); blobMat.userData.keep=true;
+
+/* ================= sticks ================= */
+let sticks=[], active=null, seq=0, layerSeq=0, selected=null, armed=null, mode='intro';
+function surfaceR(fl,y){ if(fl==='nude') return R_NUDE; if(y<HANDLE+0.02) return R_BIS; return R_COAT+(fl==='almond'?0.03:0); }
+function makeStick(flavor){
+  const s={id:++seq, flavor, group:new THREE.Group(), body:new THREE.Group(), toppingGroup:new THREE.Group(), pickables:[], toppings:[]};
+  const blob=new THREE.Mesh(blobGeo,blobMat); blob.position.y=0.01;
+  s.group.add(s.body,s.toppingGroup,blob); s.blob=blob;
+  buildBody(s); sticks.push(s); studioRoot.add(s.group); return s;
+}
+function buildBody(s){
+  [...s.body.children].forEach(c=>{ s.body.remove(c); disposeObj(c); }); s.pickables=[];
+  const add=(m,pick)=>{ s.body.add(m); if(pick){ m.userData.stick=s; s.pickables.push(m);} };
+  if(s.flavor==='nude'){ add(new THREE.Mesh(nudeGeo,[M.nudeSide,M.nudeCap,M.nudeCap]),true); }
+  else {
+    add(new THREE.Mesh(rodGeo,M.biscuit),true);
+    add(new THREE.Mesh(coatGeo,M[s.flavor]),true);
+    if(s.flavor==='almond'){
+      const n=170, im=new THREE.InstancedMesh(almondGeo,M.almondBit,n), R=seeded(s.id*31+5), m4=new THREE.Matrix4(), q=new THREE.Quaternion(), e=new THREE.Euler(), v=new THREE.Vector3(), sc=new THREE.Vector3();
+      for(let i=0;i<n;i++){ const a=R()*Math.PI*2, y=HANDLE+0.25+R()*(LEN-HANDLE-0.5), r=R_COAT+0.005; v.set(Math.sin(a)*r,y,Math.cos(a)*r); e.set(R()*6,a,R()*6); q.setFromEuler(e); const k=.6+R()*.8; sc.set(k,k,k); m4.compose(v,q,sc); im.setMatrixAt(i,m4); }
+      add(im,false);
+    }
+  }
+}
+function setFlavor(s,f){ s.flavor=f; buildBody(s); s.toppings.forEach(buildTopping); refreshUI(); }
+
+/* ================= toppings ================= */
+const sprGeo={};
+function getSprGeo(kind){
+  if(sprGeo[kind]) return sprGeo[kind];
+  let g;
+  if(kind==='rainbow') g=new THREE.CapsuleGeometry(0.022,0.075,4,8);
+  else if(kind==='pearl') g=new THREE.SphereGeometry(0.042,16,12);
+  else if(kind==='gold') g=new THREE.OctahedronGeometry(0.04);
+  else if(kind==='heart') g=new THREE.ExtrudeGeometry(heartShape3(0.055),{depth:0.012,bevelEnabled:true,bevelSize:.006,bevelThickness:.006,bevelSegments:2}).center();
+  else if(kind==='star') g=new THREE.ExtrudeGeometry(starShape3(0.06,0.026),{depth:0.012,bevelEnabled:true,bevelSize:.005,bevelThickness:.005,bevelSegments:2}).center();
+  else g=new THREE.BoxGeometry(0.07,0.035,0.01);
+  g.userData.keep=true; return (sprGeo[kind]=g);
+}
+const sprOff={rainbow:.02,pearl:.034,gold:.025,heart:.012,star:.012,coco:.006};
+const matCache=new Map();
+function sprMat(kind,color){
+  const k=kind+color; if(matCache.has(k)) return matCache.get(k);
+  let m;
+  if(kind==='pearl') m=new THREE.MeshPhysicalMaterial({color, roughness:.15, metalness:.25, clearcoat:1, sheen:1, sheenColor:new THREE.Color('#ffd6f0')});
+  else if(kind==='gold') m=new THREE.MeshStandardMaterial({color, metalness:1, roughness:.18, emissive:new THREE.Color(color), emissiveIntensity:.25});
+  else if(kind==='coco') m=new THREE.MeshStandardMaterial({color, roughness:.95});
+  else m=new THREE.MeshPhysicalMaterial({color, roughness:.35, clearcoat:.6});
+  m.userData.keep=true; matCache.set(k,m); return m;
+}
+const twinkles=new Set();
+function buildTopping(t){
+  if(t.host) return buildKid(t);
+  const s=t.stick;
+  if(t.mesh){ s.toppingGroup.remove(t.mesh); disposeObj(t.mesh); t.mesh.traverse(n=>twinkles.delete(n)); }
+  const pivot=new THREE.Group(); pivot.userData.topping=t;
+  t.R=surfaceR(s.flavor,t.y);
+  if(t.kind==='sprinkle') buildSprinkle(t,pivot); else if(t.kind==='model') buildModel(t,pivot); else buildDecal(t,pivot);
+  s.toppingGroup.add(pivot); t.mesh=pivot; placePivot(t);
+  if(t.kind==='model') t.kids.forEach(buildKid);
+}
+function decalCanvas(t){
+  const src=contentCanvas(t), a=THREE.MathUtils.degToRad(t.rot||0), cw=src.width, ch=src.height;
+  const ca=Math.abs(Math.cos(a)), sa=Math.abs(Math.sin(a)), W=cw*ca+ch*sa, H=cw*sa+ch*ca;
+  const k=Math.min(1,900/Math.max(W,H)), c=mk(W*k+2,H*k+2), x=c.getContext('2d');
+  x.translate(c.width/2,c.height/2); x.rotate(a); x.scale(k,k); x.drawImage(src,-cw/2,-ch/2);
+  const wpp=t.size/Math.max(cw,ch); return {c, ww:W*wpp, wh:H*wpp};
+}
+function buildDecal(t,pivot){
+  const {c,ww,wh}=decalCanvas(t);
+  const R=t.R+0.007+(t.layer%25)*0.0016, tl=Math.min(ww/R,Math.PI*1.9);
+  const geo=new THREE.CylinderGeometry(R,R,wh,Math.max(8,Math.ceil(tl*22)),1,true,-tl/2,tl);
+  const mat=new THREE.MeshStandardMaterial({map:texFrom(c), alphaTest:.5, roughness:.4, metalness:0});
+  const m=new THREE.Mesh(geo,mat); m.userData.topping=t; pivot.add(m);
+}
+/* ----- 3D models (stuck into the stick) ----- */
+const MODELS={ ball:'동글 공', heart:'하트', star:'별', cube:'주사위', board:'네모 판', disc:'동그란 판', bear:'곰돌이', cloud:'구름', mushroom:'버섯', snow:'눈사람' };
+const FIX={ dark:new THREE.MeshPhysicalMaterial({color:0x2a1710,roughness:.25,clearcoat:1}), cream:new THREE.MeshPhysicalMaterial({color:0xfff1dc,roughness:.4,clearcoat:.6}), pink:new THREE.MeshPhysicalMaterial({color:0xff9ab5,roughness:.4,clearcoat:.6}), stem:new THREE.MeshPhysicalMaterial({color:0xfff4e4,roughness:.5,clearcoat:.3}) };
+Object.values(FIX).forEach(m=>m.userData.keep=true);
+function modelParts(kind, main){
+  const P=[]; const add=(g,m,x,y,z,sx=1,sy=1,sz=1)=>{ const o=new THREE.Mesh(g,m); o.position.set(x,y,z); o.scale.set(sx,sy,sz); P.push(o); return o; };
+  const sph=(r)=>new THREE.SphereGeometry(r,40,28);
+  switch(kind){
+    case 'ball': add(sph(.3),main,0,0,.24); break;
+    case 'heart': add(new THREE.ExtrudeGeometry(heartShape3(.34),{depth:.12,bevelEnabled:true,bevelSize:.05,bevelThickness:.05,bevelSegments:4,curveSegments:28}).center(),main,0,0,.12); break;
+    case 'star': add(new THREE.ExtrudeGeometry(starShape3(.42,.19),{depth:.12,bevelEnabled:true,bevelSize:.04,bevelThickness:.04,bevelSegments:3}).center(),main,0,0,.12); break;
+    case 'cube': add(new RoundedBoxGeometry(.5,.5,.5,4,.08),main,0,0,.2); break;
+    case 'board': add(new RoundedBoxGeometry(1.2,.75,.1,4,.04),main,0,0,.06); break;
+    case 'disc': { const g=new THREE.CylinderGeometry(.48,.48,.1,64); g.rotateX(Math.PI/2); add(g,main,0,0,.06); break; }
+    case 'bear': { add(sph(.32),main,0,0,.26); const e=sph(.12); add(e,main,-.25,.25,.2); add(e,main,.25,.25,.2); const ie=sph(.065); add(ie,FIX.pink,-.25,.25,.29,1,1,.5); add(ie,FIX.pink,.25,.25,.29,1,1,.5);
+      add(sph(.13),FIX.cream,0,-.09,.48,1,.8,.65); const d=sph(.04); add(d,FIX.dark,-.11,.08,.55); add(d,FIX.dark,.11,.08,.55); add(sph(.045),FIX.dark,0,-.05,.56,1.25,.9,1); break; }
+    case 'cloud': { add(sph(.2),main,-.24,-.04,.14,1,1,.8); add(sph(.27),main,0,.06,.18,1,1,.8); add(sph(.2),main,.25,-.03,.14,1,1,.8); add(sph(.17),main,.02,-.12,.16,1.6,.8,.8); break; }
+    case 'mushroom': { const cap=new THREE.SphereGeometry(.34,40,24,0,Math.PI*2,0,Math.PI/2); cap.rotateX(Math.PI/2); add(cap,main,0,0,.24,1,1,.9); const st=new THREE.CylinderGeometry(.13,.15,.26,24); st.rotateX(Math.PI/2); add(st,FIX.stem,0,0,.12); const dot=sph(.06); [[-.14,.12],[.15,.1],[0,-.16],[.02,.08]].forEach(([x,y])=>add(dot,FIX.cream,x,y,.24+Math.sqrt(Math.max(0,.34*.34*.81-x*x-y*y))-.02,1,1,.4)); break; }
+    case 'snow': { add(sph(.24),main,0,-.2,.2); add(sph(.18),main,0,.2,.2); const d=sph(.03); add(d,FIX.dark,-.06,.25,.37); add(d,FIX.dark,.06,.25,.37); const n=new THREE.ConeGeometry(.035,.14,12); n.rotateX(Math.PI/2); add(n,new THREE.MeshPhysicalMaterial({color:0xff8a3d,roughness:.4}),0,.2,.42); add(d,FIX.dark,0,-.12,.43); add(d,FIX.dark,0,-.24,.44); break; }
+  }
+  return P;
+}
+function buildModel(t,pivot){
+  const main=new THREE.MeshPhysicalMaterial({color:t.color, roughness:.3, clearcoat:.8, clearcoatRoughness:.2});
+  const holder=new THREE.Group(); holder.position.z=t.R-0.02; holder.rotation.z=THREE.MathUtils.degToRad(t.rot||0); holder.scale.setScalar(t.size);
+  const parts=modelParts(t.content.id,main), box=new THREE.Box3();
+  parts.forEach((m,i)=>{ m.userData.topping=t; m.userData.modelPart=true; m.userData.partIdx=i; holder.add(m);
+    m.updateMatrix(); if(!m.geometry.boundingBox) m.geometry.computeBoundingBox(); box.union(m.geometry.boundingBox.clone().applyMatrix4(m.matrix)); });
+  pivot.add(holder); t.holder=holder; t.parts=parts; t.mainMat=main; t.mbox=box;
+  positionModel(t);
+}
+const topY=fl=>fl==='nude'?LEN:LEN+0.05;
+function positionModel(t){
+  const h=t.holder, s=t.size, b=t.mbox; h.scale.setScalar(s);
+  if(t.top){ h.rotation.set(0,0,0); h.position.set(-(b.min.x+b.max.x)/2*s, -b.min.y*s-0.06*s, -(b.min.z+b.max.z)/2*s); }
+  else { h.rotation.set(0,0,THREE.MathUtils.degToRad(t.rot||0)); h.position.set(0,0,t.R-0.02); }
+}
+function placePivot(t){
+  const p=t.mesh;
+  if(t.top){ p.position.set(0,topY(t.stick.flavor),0); p.rotation.set(0,THREE.MathUtils.degToRad(t.rot||0),0); }
+  else { p.position.set(0,t.y,0); p.rotation.set(0,t.theta,0); }
+}
+function hostFrame(h,N){
+  const up=new THREE.Vector3(0,1,0).transformDirection(h.holder.matrixWorld);
+  if(Math.abs(up.dot(N))>0.95) up.set(1,0,0).transformDirection(h.holder.matrixWorld);
+  return up;
+}
+function buildKid(t){
+  const h=t.host;
+  if(t.mesh){ t.mesh.parent && t.mesh.parent.remove(t.mesh); t.mesh.traverse(n=>twinkles.delete(n)); disposeObj(t.mesh); }
+  scene.updateMatrixWorld(true);
+  const P=h.holder.localToWorld(new THREE.Vector3(...t.lp));
+  const N=new THREE.Vector3(...t.ln).transformDirection(h.holder.matrixWorld);
+  const inv=h.holder.matrixWorld.clone().invert(), up=hostFrame(h,N);
+  const grp=new THREE.Group(); grp.userData.topping=t;
+  if(t.kind==='sprinkle') kidSprinkle(t,grp,P,N,up,inv); else kidDecal(t,grp,h.parts[t.partIdx]||h.parts[0],P,N,up,inv);
+  h.holder.add(grp); t.mesh=grp;
+}
+function kidDecal(t,grp,part,P,N,up,inv){
+  const {c,ww,wh}=decalCanvas(t);
+  const d=new THREE.Object3D(); d.position.copy(P); d.up.copy(up); d.lookAt(P.clone().add(N));
+  const g=new DecalGeometry(part,P,d.rotation,new THREE.Vector3(ww,wh,Math.max(ww,wh)*0.9+0.15));
+  const pos=g.attributes.position, nor=g.attributes.normal, uv=g.attributes.uv, op=[], on=[], ou=[];
+  const a=new THREE.Vector3();
+  for(let i=0;i<pos.count;i+=3){
+    a.set(0,0,0); for(let j=0;j<3;j++) a.x+=nor.getX(i+j), a.y+=nor.getY(i+j), a.z+=nor.getZ(i+j);
+    if(a.normalize().dot(N)<0.15) continue;
+    for(let j=0;j<3;j++){ const k=i+j; op.push(pos.getX(k)+nor.getX(k)*0.004, pos.getY(k)+nor.getY(k)*0.004, pos.getZ(k)+nor.getZ(k)*0.004); on.push(nor.getX(k),nor.getY(k),nor.getZ(k)); ou.push(uv.getX(k),uv.getY(k)); }
+  }
+  g.dispose();
+  const geo=new THREE.BufferGeometry();
+  geo.setAttribute('position',new THREE.Float32BufferAttribute(op,3)); geo.setAttribute('normal',new THREE.Float32BufferAttribute(on,3)); geo.setAttribute('uv',new THREE.Float32BufferAttribute(ou,2));
+  geo.applyMatrix4(inv);
+  const m=new THREE.Mesh(geo,new THREE.MeshStandardMaterial({map:texFrom(c), alphaTest:.5, roughness:.4, polygonOffset:true, polygonOffsetFactor:-4, polygonOffsetUnits:-4}));
+  m.userData.topping=t; grp.add(m);
+}
+function kidSprinkle(t,grp,P,N,up,inv){
+  const h=t.host, kind=t.content.id, R=seeded(t.seed), cols=SPRINKLES[kind].colors, geo=getSprGeo(kind);
+  const count=Math.min(70,Math.round(8+18*t.size*t.size)), spread=0.28*t.size;
+  const t1=new THREE.Vector3().crossVectors(N,up).normalize(), t2=new THREE.Vector3().crossVectors(N,t1);
+  const rc=new THREE.Raycaster(), Z=new THREE.Vector3(0,0,1), hq=new THREE.Quaternion(), hs=new THREE.Vector3();
+  h.holder.getWorldQuaternion(hq); h.holder.getWorldScale(hs); const hqi=hq.clone().invert();
+  for(let i=0;i<count;i++){
+    const rr=spread*Math.sqrt(R()), a=R()*Math.PI*2, spin=R()*Math.PI*2, ci=Math.floor(R()*cols.length), ps=.7+R()*.6, ph=R()*6.28;
+    const o=P.clone().addScaledVector(t1,rr*Math.cos(a)).addScaledVector(t2,rr*Math.sin(a)).addScaledVector(N,0.9);
+    rc.set(o,N.clone().negate()); const hit=rc.intersectObjects(h.parts,false)[0]; if(!hit) continue;
+    const n=hit.face.normal.clone().transformDirection(hit.object.matrixWorld); if(n.dot(N)<0.1) continue;
+    const wp=hit.point.clone().addScaledVector(n,sprOff[kind]*hs.x);
+    const wq=new THREE.Quaternion().setFromUnitVectors(Z,n).multiply(new THREE.Quaternion().setFromAxisAngle(Z,spin));
+    const m=new THREE.Mesh(geo,sprMat(kind,cols[ci]));
+    m.position.copy(wp.applyMatrix4(inv)); m.quaternion.copy(hqi.clone().multiply(wq));
+    m.userData.base=(kind==='pearl'?ps:1); m.scale.setScalar(m.userData.base);
+    m.userData.topping=t; m.userData.phase=ph; grp.add(m);
+    if(kind==='gold'||kind==='star') twinkles.add(m);
+  }
+}
+function buildSprinkle(t,pivot){
+  const kind=t.content.id, R=seeded(t.seed), cols=SPRINKLES[kind].colors, geo=getSprGeo(kind);
+  const count=Math.min(80,Math.round(10+22*t.size*t.size)), spread=0.32*t.size, base=t.R+sprOff[kind];
+  const Z=new THREE.Vector3(0,0,1);
+  for(let i=0;i<count;i++){
+    const rr=spread*Math.sqrt(R()), a=R()*Math.PI*2, dth=(rr*Math.cos(a))/base, dy=rr*Math.sin(a);
+    const m=new THREE.Mesh(geo,sprMat(kind,cols[Math.floor(R()*cols.length)]));
+    m.position.set(Math.sin(dth)*base,dy,Math.cos(dth)*base);
+    m.quaternion.setFromEuler(new THREE.Euler(0,dth,0)).multiply(new THREE.Quaternion().setFromAxisAngle(Z,R()*Math.PI*2));
+    if(kind==='pearl') m.scale.setScalar(.7+R()*.6);
+    m.userData.topping=t; m.userData.phase=R()*6.28; pivot.add(m);
+    if(kind==='gold'||kind==='star') twinkles.add(m);
+  }
+}
+function addTopping(stick, spec, theta, y, top=false){
+  const t={stick, theta, top, y:clamp(y,0.15,LEN-0.05), layer:layerSeq++, seed:Math.floor(Math.random()*1e9), ...JSON.parse(JSON.stringify(spec.data))};
+  if(spec.data.content.type==='draw') t.content={type:'draw', canvas:spec.canvas};
+  if(t.kind==='model') t.kids=[];
+  stick.toppings.push(t); buildTopping(t); return t;
+}
+function addKid(host, spec, hit){
+  scene.updateMatrixWorld(true);
+  const inv=host.holder.matrixWorld.clone().invert();
+  const lp=hit.point.clone().applyMatrix4(inv);
+  const nW=hit.face.normal.clone().transformDirection(hit.object.matrixWorld);
+  const ln=nW.transformDirection(inv);
+  const t={host, stick:host.stick, partIdx:hit.object.userData.partIdx, lp:lp.toArray(), ln:ln.toArray(), layer:layerSeq++, seed:Math.floor(Math.random()*1e9), ...JSON.parse(JSON.stringify(spec.data))};
+  if(spec.data.content.type==='draw') t.content={type:'draw', canvas:spec.canvas};
+  if(t.kind==='decal'){ t.size=Math.min(t.size,(host.content.id==='board'?1.0:0.6)*host.size); t.rot=0; }
+  host.kids.push(t); buildKid(t); return t;
+}
+function removeTopping(t){
+  t.mesh.parent && t.mesh.parent.remove(t.mesh); t.mesh.traverse(n=>twinkles.delete(n)); disposeObj(t.mesh);
+  if(t.host) t.host.kids=t.host.kids.filter(x=>x!==t); else t.stick.toppings=t.stick.toppings.filter(x=>x!==t);
+  if(selected && (selected===t || selected.host===t)) select(null);
+}
+
+/* ================= layout & camera ================= */
+function layoutStudio(){
+  const n=sticks.length;
+  sticks.forEach((s,i)=>{ studioRoot.add(s.group); s.group.position.set((i-(n-1)/2)*1.5,-LEN/2,0); s.group.quaternion.identity(); s.group.scale.setScalar(1); s.blob.visible=true; });
+  floor.visible=true; focusActive();
+}
+function focusActive(){ if(!active) return; goal.set(active.group.position.x,0,0);
+  marker.visible = sticks.length>1 && mode==='studio'; active.group.add(marker); marker.position.set(0,LEN+0.75,0); }
+function setActive(s){ active=s; focusActive(); refreshUI(); }
+function resetView(){
+  const fit=h=>(h/2)/Math.tan(THREE.MathUtils.degToRad(camera.fov/2))*Math.max(1.12,1.12/Math.min(1,camera.aspect*1.4));
+  if(mode==='wrap'){ const d=fit(wrapH); camera.position.set(goal.x, goal.y+2.2, goal.z+d); controls.target.copy(goal); }
+  else { camera.position.set(goal.x,1.4,fit(8.8)); controls.target.copy(goal); }
+}
+let wrapH=9;
+
+/* ================= picking & interaction ================= */
+const ray=new THREE.Raycaster(), ndc=new THREE.Vector2();
+function setRay(e){ const r=canvas.getBoundingClientRect(); ndc.set((e.clientX-r.left)/r.width*2-1, -((e.clientY-r.top)/r.height)*2+1); ray.setFromCamera(ndc,camera); }
+function pickTopping(e){ setRay(e); const h=ray.intersectObjects(sticks.map(s=>s.toppingGroup),true)[0]; return h?h.object.userData.topping:null; }
+function modelParts_all(){ const a=[]; sticks.forEach(s=>s.toppings.forEach(t=>{ if(t.kind==='model') a.push(...t.parts); })); return a; }
+function pickPlace(e){ setRay(e); const list=sticks.flatMap(s=>s.pickables); if(armed && armed.data.kind!=='model') list.push(...modelParts_all()); return ray.intersectObjects(list,false)[0]||null; }
+function pickStick(e,only){ setRay(e); const list=only?only.pickables:sticks.flatMap(s=>s.pickables); const h=ray.intersectObjects(list,false)[0]; return h?{stick:h.object.userData.stick, point:h.point}:null; }
+function localTY(stick,point){ const l=stick.group.worldToLocal(point.clone()); return {theta:Math.atan2(l.x,l.z), y:l.y}; }
+let down=null, dragging=null;
+function onDown(e){
+  down={x:e.clientX,y:e.clientY,moved:false};
+  if(mode!=='studio' || armed || e.button>0) return;
+  const t=pickTopping(e);
+  if(t){ select(t); if(t.stick!==active) setActive(t.stick); dragging=t; controls.enabled=false; canvas.setPointerCapture(e.pointerId); }
+}
+canvas.addEventListener('pointermove',e=>{
+  if(down && Math.hypot(e.clientX-down.x,e.clientY-down.y)>6) down.moved=true;
+  if(!dragging) return;
+  if(dragging.host){ const t=dragging; setRay(e); const hit=ray.intersectObjects(t.host.parts,false)[0]; if(!hit) return;
+    scene.updateMatrixWorld(true); const inv=t.host.holder.matrixWorld.clone().invert();
+    t.lp=hit.point.clone().applyMatrix4(inv).toArray(); t.ln=hit.face.normal.clone().transformDirection(hit.object.matrixWorld).transformDirection(inv).toArray(); t.partIdx=hit.object.userData.partIdx; buildKid(t); return; }
+  const h=pickStick(e,dragging.stick); if(!h) return;
+  const {theta,y}=localTY(h.stick,h.point); const t=dragging; const oldR=t.R;
+  t.theta=theta; t.y=clamp(y,0.15,LEN-0.05);
+  const wasTop=t.top; if(t.kind==='model') t.top=y>LEN-0.12;
+  if(t.top!==wasTop || surfaceR(t.stick.flavor,t.y)!==oldR) buildTopping(t); else placePivot(t);
+});
+canvas.addEventListener('pointerup',async e=>{
+  if(dragging){ dragging=null; controls.enabled=true; try{canvas.releasePointerCapture(e.pointerId);}catch(_){} down=null; return; }
+  if(!down || down.moved || mode!=='studio'){ down=null; return; }
+  down=null;
+  if(armed){
+    const hit=pickPlace(e); if(!hit) return;
+    const spec=armed;
+    if(spec.data.content.type==='text') { const f=FONTS.find(f=>f.id===spec.data.content.font); try{ await document.fonts.load(`${f.w} 150px ${f.css}`, spec.data.content.text); }catch(_){} }
+    let t;
+    if(hit.object.userData.modelPart){ const host=hit.object.userData.topping; if(host.stick!==active) setActive(host.stick); t=addKid(host,spec,hit); }
+    else { const st=hit.object.userData.stick; const {theta,y}=localTY(st,hit.point); if(st!==active) setActive(st); t=addTopping(st,spec,theta,y, spec.data.kind==='model' && y>LEN-0.12); }
+    if(t.kind==='sprinkle'){ select(null); toast('톡톡! 더 뿌리거나 취소를 눌러'); }
+    else if(t.kind==='model'){ setArmed(null); select(t); toast('모형을 박았어! 이제 글자나 토핑을 고르고 모형을 눌러봐'); }
+    else { setArmed(null); select(t); toast('올렸어! 끌어서 옮기고, 크기랑 회전도 바꿔봐'); }
+    refreshUI(); return;
+  }
+  const h=pickStick(e);
+  if(h){ select(null); if(h.stick!==active) setActive(h.stick); }
+  else select(null);
+});
+canvas.addEventListener('pointercancel',()=>{ dragging=null; controls.enabled=true; down=null; });
+addEventListener('keydown',e=>{
+  if(mode!=='studio' || e.target.tagName==='INPUT') return;
+  if(e.key==='Escape'){ setArmed(null); select(null); }
+  if((e.key==='Delete'||e.key==='Backspace') && selected){ removeTopping(selected); refreshUI(); }
+});
+
+/* ================= UI state ================= */
+let curColor=ICING[0][1], curFont='jua';
+const toastEl=$('#toast'); let toastT;
+function toast(msg){ toastEl.textContent=msg; toastEl.classList.add('show'); clearTimeout(toastT); toastT=setTimeout(()=>toastEl.classList.remove('show'),2200); }
+function setArmed(spec, btn){
+  armed=spec; document.querySelectorAll('.item.on,.arm-btn.on').forEach(b=>b.classList.remove('on'));
+  if(spec && btn) btn.classList.add('on');
+  stage.classList.toggle('armed',!!spec); if(spec) select(null);
+  setHint();
+}
+function setHint(){
+  const tx=$('#hintTxt'), cb=$('#hintCancel');
+  if(mode==='photo'){ tx.textContent='돌리고 확대해서 마음에 드는 각도를 찾아줘'; cb.hidden=true; return; }
+  if(mode==='wrap'){ tx.textContent='드래그해서 돌려보고, 휠이나 두 손가락으로 확대해봐'; cb.hidden=true; return; }
+  if(armed){ tx.textContent= armed.data.kind==='model' ? '빼빼로에서 모형을 박을 자리를 톡 눌러줘' : armed.data.kind==='sprinkle' ? '빼빼로나 모형을 톡톡 눌러서 뿌려줘' : '빼빼로나 모형에서 올릴 자리를 톡 눌러줘'; cb.hidden=false; }
+  else if(selected){ tx.textContent='토핑을 끌어서 옮길 수 있어'; cb.hidden=true; }
+  else { tx.textContent='토핑을 고르고 빼빼로를 톡 눌러 올려봐'; cb.hidden=true; }
+}
+$('#hintCancel').onclick=()=>setArmed(null);
+function select(t){
+  selected=t; selHelper.visible=!!t;
+  const box=$('#selBox'); box.hidden=!t;
+  if(t){
+    const spr=t.kind==='sprinkle', mdl=t.kind==='model';
+    $('#sizeLbl').textContent=spr?'퍼짐':'크기';
+    const ss=$('#selSize'); ss.min=spr?0.5:mdl?0.4:0.2; ss.max=spr?2.2:mdl?2.6:4; ss.value=t.size; $('#selSizeO').textContent=(+t.size).toFixed(1);
+    $('#rotWrap').hidden=spr; $('#selRot').value=t.rot||0; $('#selRotO').textContent=`${Math.round(t.rot||0)}°`;
+  }
+  setHint();
+}
+$('#selSize').oninput=e=>{ if(!selected) return; selected.size=+e.target.value; $('#selSizeO').textContent=selected.size.toFixed(1); if(selected.kind==='model') positionModel(selected); else buildTopping(selected); };
+$('#selRot').oninput=e=>{ if(!selected) return; selected.rot=+e.target.value; $('#selRotO').textContent=`${selected.rot}°`; if(selected.kind==='model'){ positionModel(selected); placePivot(selected); } else buildTopping(selected); };
+$('#selDone').onclick=()=>select(null);
+$('#selDel').onclick=()=>{ if(selected){ removeTopping(selected); refreshUI(); } };
+$('#selDup').onclick=()=>{
+  if(!selected) return; const o=selected;
+  if(o.host){ const lp=[...o.lp]; lp[0]+=0.15; const t={...o, lp, mesh:null, layer:layerSeq++, seed:Math.floor(Math.random()*1e9)}; o.host.kids.push(t); buildKid(t); select(t); refreshUI(); return; }
+  const t={...o, mesh:null, holder:null, parts:null, mainMat:null, kids:[], layer:layerSeq++, seed:Math.floor(Math.random()*1e9), top:false, y:o.top?LEN-1.2:clamp(o.y+(o.y>LEN-1.2?-0.9:0.9),0.15,LEN-0.05), theta:o.theta+0.3};
+  o.stick.toppings.push(t); buildTopping(t); select(t); refreshUI();
+};
+
+function refreshUI(){
+  const list=$('#stickList'); list.innerHTML='';
+  sticks.forEach((s,i)=>{ const b=document.createElement('button'); b.className='stick-chip'+(s===active?' on':''); b.style.setProperty('--c',FLAVORS[s.flavor].css);
+    b.innerHTML=`<i></i>${i+1}번 ${FLAVORS[s.flavor].name}<span class="lbl">· 토핑 ${s.toppings.reduce((a,t)=>a+1+(t.kids?t.kids.length:0),0)}</span>`; b.onclick=()=>{ select(null); setActive(s); }; list.appendChild(b); });
+  document.querySelectorAll('#flavorSeg button').forEach(b=>b.classList.toggle('on',active && b.dataset.f===active.flavor));
+  $('#delStick').hidden=sticks.length<2;
+  $('#addStick').disabled=sticks.length>=10; $('#addStick').style.opacity=sticks.length>=10?.4:1;
+}
+
+/* ----- build static UI ----- */
+function buildUI(){
+  // flavor cards
+  const fc=$('#flavorCards');
+  Object.entries(FLAVORS).forEach(([k,f])=>{
+    const b=document.createElement('button'); b.className='flavor f-'+k; b.style.setProperty('--c',f.css);
+    b.innerHTML=`<span class="fname">${f.name}</span><span class="fdesc">${f.desc}</span><span class="mini-stick"></span><span class="mini-stick two"></span><span class="go">이걸로 →</span>`;
+    b.onclick=()=>startStudio(k); fc.appendChild(b);
+  });
+  // flavor seg
+  const seg=$('#flavorSeg');
+  Object.entries(FLAVORS).forEach(([k,f])=>{ const b=document.createElement('button'); b.dataset.f=k; b.textContent=f.name; b.onclick=()=>{ if(active) setFlavor(active,k); }; seg.appendChild(b); });
+  // tabs
+  document.querySelectorAll('#tabs button').forEach(b=>b.onclick=()=>{
+    document.querySelectorAll('#tabs button').forEach(x=>x.classList.toggle('on',x===b));
+    document.querySelectorAll('.pane').forEach(p=>p.hidden=p.dataset.pane!==b.dataset.tab);
+    $('#colorBlk').hidden=b.dataset.tab==='sprinkle';
+    setArmed(null);
+  });
+  // quick text
+  QUICK.forEach(q=>{ const b=document.createElement('button'); b.textContent=q; b.onclick=()=>{ $('#txtIn').value=q; }; $('#quickTxt').appendChild(b); });
+  // fonts
+  FONTS.forEach(f=>{ const b=document.createElement('button'); b.dataset.f=f.id; b.className=f.id===curFont?'on':''; b.style.fontFamily=f.css; b.style.fontWeight=f.w; b.innerHTML=`${f.sample}<small>${f.name}</small>`; b.onclick=()=>{ curFont=f.id; document.querySelectorAll('#fontRow button').forEach(x=>x.classList.toggle('on',x===b)); }; $('#fontRow').appendChild(b); });
+  $('#armText').onclick=e=>{ const text=$('#txtIn').value.trim(); if(!text){ toast('먼저 글자를 써줘'); return; }
+    setArmed({data:{kind:'decal', content:{type:'text', text, font:curFont}, color:curColor, size:Math.min(3.2,1.1+text.length*0.3), rot:text.length>2?90:0}}, e.currentTarget); };
+  // colors
+  ICING.forEach(([n,c],i)=>{ const b=document.createElement('button'); b.className='sw'+(i===0?' on':''); b.style.setProperty('--c',c); b.title=n; b.setAttribute('aria-label',n);
+    b.onclick=()=>{ curColor=c; document.querySelectorAll('#colorRow .sw').forEach(x=>x.classList.toggle('on',x===b)); renderShapeGrid(); renderModelGrid();
+      if(selected && selected.kind==='decal' && selected.content.type!=='draw'){ selected.color=c; buildTopping(selected); }
+      if(selected && selected.kind==='model'){ selected.color=c; selected.mainMat.color.set(c); }
+      if(armed && (armed.data.kind==='model' || (armed.data.kind==='decal' && armed.data.content.type!=='draw'))) armed.data.color=c; };
+    $('#colorRow').appendChild(b); });
+  renderShapeGrid(); renderModelGrid();
+  // sprinkles
+  Object.entries(SPRINKLES).forEach(([k,s])=>{
+    const c=mk(128,80), x=c.getContext('2d'), R=seeded(k.length*99);
+    for(let i=0;i<22;i++){ const X=10+R()*108, Y=8+R()*64, col=s.colors[Math.floor(R()*s.colors.length)]; x.fillStyle=col; x.strokeStyle='rgba(59,34,25,.35)'; x.lineWidth=1.5;
+      x.save(); x.translate(X,Y); x.rotate(R()*6.28);
+      if(k==='rainbow'){ x.beginPath(); x.roundRect(-9,-3,18,6,3); x.fill(); x.stroke(); }
+      else if(k==='pearl'){ x.beginPath(); x.arc(0,0,5,0,7); x.fill(); x.stroke(); }
+      else if(k==='gold'){ x.fill(starPath(0,0,7,2.2,4)); }
+      else if(k==='heart'){ const p=heartPath(0,0,.07); x.fill(p); x.stroke(p); }
+      else if(k==='star'){ const p=starPath(0,0,7,3); x.fill(p); x.stroke(p); }
+      else { x.fillRect(-6,-2,12,4); x.strokeRect(-6,-2,12,4); }
+      x.restore(); }
+    const b=document.createElement('button'); b.className='item'; b.innerHTML=`<img alt="" src="${c.toDataURL()}"><span>${s.name}</span>`;
+    b.onclick=()=>setArmed({data:{kind:'sprinkle', content:{type:'sprinkle', id:k}, size:1}}, b);
+    $('#sprGrid').appendChild(b);
+  });
+  // draw pad
+  const pad=$('#pad'), px=pad.getContext('2d'); let drawing=false, last=null; pad.dirty=false;
+  const pos=e=>{ const r=pad.getBoundingClientRect(); return [(e.clientX-r.left)/r.width*pad.width,(e.clientY-r.top)/r.height*pad.height]; };
+  pad.addEventListener('pointerdown',e=>{ drawing=true; last=pos(e); pad.setPointerCapture(e.pointerId); px.fillStyle=curColor; px.beginPath(); px.arc(last[0],last[1],+$('#penSize').value/2,0,7); px.fill(); pad.dirty=true; });
+  pad.addEventListener('pointermove',e=>{ if(!drawing) return; const p=pos(e); px.strokeStyle=curColor; px.lineWidth=+$('#penSize').value; px.lineCap='round'; px.lineJoin='round'; px.beginPath(); px.moveTo(...last); px.lineTo(...p); px.stroke(); last=p; });
+  addEventListener('pointerup',()=>drawing=false);
+  $('#padClear').onclick=()=>{ px.clearRect(0,0,pad.width,pad.height); pad.dirty=false; };
+  $('#armDraw').onclick=e=>{ const t=pad.dirty&&trim(pad); if(!t){ toast('먼저 그림을 그려줘'); return; }
+    setArmed({data:{kind:'decal', content:{type:'draw'}, color:'#fff', size:1.3, rot:0}, canvas:outlined(t,'#ffffff',9)}, e.currentTarget); };
+  // sticks
+  $('#addStick').onclick=()=>{ if(sticks.length>=10) return; const s=makeStick(active?active.flavor:'choco'); select(null); layoutStudio(); setActive(s); toast(`${sticks.length}번 빼빼로 추가! 맛도 바꿀 수 있어`); };
+  $('#delStick').onclick=()=>{ if(sticks.length<2||!active) return; const i=sticks.indexOf(active); if(marker.parent) marker.parent.remove(marker); studioRoot.remove(active.group); disposeObj(active.group); sticks.splice(i,1); select(null); active=sticks[Math.max(0,i-1)]; layoutStudio(); refreshUI(); };
+  // view
+  const dolly=f=>{ const off=camera.position.clone().sub(controls.target); const l=clamp(off.length()*f,controls.minDistance,controls.maxDistance); off.setLength(l); camera.position.copy(controls.target).add(off); };
+  $('#zIn').onclick=()=>dolly(0.8); $('#zOut').onclick=()=>dolly(1.25); $('#vReset').onclick=resetView;
+  $('#vSpin').onclick=e=>{ controls.autoRotate=!controls.autoRotate; e.currentTarget.classList.toggle('on',controls.autoRotate); };
+  $('#btnHome').onclick=()=>{ setArmed(null); select(null); if(mode==='wrap'||mode==='photo') leaveWrap(); mode='intro'; $('#work').hidden=true; $('#intro').hidden=false; };
+  $('#toWrap').onclick=enterWrap; $('#backStudio').onclick=()=>{ leaveWrap(); };
+  // wrap UI
+  WRAP_FORMS.forEach(f=>{ const b=document.createElement('button'); b.dataset.f=f.id; b.innerHTML=f.svg+f.name; b.onclick=()=>{ wrap.form=f.id; buildWrap(); syncWrapUI(); }; $('#formGrid').appendChild(b); });
+  PATTERNS.forEach(p=>{ const b=document.createElement('button'); b.dataset.p=p.id; b.innerHTML=`<span class="pv" style="background-image:url(${patternCanvas(p,false,180).toDataURL()})"></span>${p.name}`; b.onclick=()=>{ wrap.pattern=p.id; buildWrap(); syncWrapUI(); }; $('#patGrid').appendChild(b); });
+  RIBBONS.forEach(([n,c])=>{ const b=document.createElement('button'); b.className='sw'; b.dataset.c=c; b.style.setProperty('--c',c); b.title=n; b.setAttribute('aria-label',n+' 리본'); b.onclick=()=>{ wrap.ribbon=c; buildWrap(); syncWrapUI(); }; $('#ribbonRow').appendChild(b); });
+  let tagT; $('#tagIn').oninput=e=>{ wrap.tag=e.target.value; clearTimeout(tagT); tagT=setTimeout(buildWrap,250); };
+  $('#finish').onclick=enterPhoto;
+  $('#backWrap').onclick=()=>{ mode='wrap'; $('#panelPhoto').hidden=true; $('#panelWrap').hidden=false; $('#photoFrame').hidden=true; setProgress(2); setHint(); };
+  $('#shoot').onclick=finish;
+  document.querySelectorAll('#angleSeg button').forEach(b=>b.onclick=()=>{
+    const d=camera.position.distanceTo(controls.target), v={front:[0,.1,1],high:[0,.75,.66],side:[.8,.2,.56]}[b.dataset.a];
+    camera.position.copy(controls.target).add(new THREE.Vector3(...v).normalize().multiplyScalar(d)); });
+  $('#reWrap').onclick=()=>{ $('#final').hidden=true; setProgress(3); };
+  $('#restart').onclick=()=>{ $('#final').hidden=true; leaveWrap(); [...sticks].forEach(s=>{ studioRoot.remove(s.group); disposeObj(s.group); }); sticks=[]; active=null; mode='intro'; $('#work').hidden=true; $('#intro').hidden=false; };
+}
+function modelIcon(id,c){
+  const k=mk(128,128), x=k.getContext('2d'); const g=x.createRadialGradient(46,40,4,64,64,70); g.addColorStop(0,shade(c,.6)); g.addColorStop(1,c);
+  x.fillStyle=g; x.strokeStyle=outlineFor(c); x.lineWidth=4; x.lineJoin='round';
+  const fs=p=>{ x.fill(p); x.stroke(p); }; const C=(cx,cy,r)=>{ const p=new Path2D(); p.arc(cx,cy,r,0,7); return p; };
+  if(id==='ball') fs(C(64,64,44));
+  else if(id==='heart') fs(heartPath(64,66,.46));
+  else if(id==='star') fs(starPath(64,68,52,24));
+  else if(id==='cube'){ const p=new Path2D(); p.roundRect(26,26,76,76,14); fs(p); x.fillStyle='rgba(255,255,255,.35)'; x.fillRect(34,32,60,10); }
+  else if(id==='board'){ const p=new Path2D(); p.roundRect(12,34,104,62,10); fs(p); x.strokeStyle=outlineFor(c); x.globalAlpha=.4; x.beginPath(); x.moveTo(30,58); x.lineTo(98,58); x.moveTo(30,74); x.lineTo(80,74); x.stroke(); x.globalAlpha=1; }
+  else if(id==='disc'){ fs(C(64,64,46)); x.globalAlpha=.35; x.stroke(C(64,64,32)); x.globalAlpha=1; }
+  else if(id==='bear'){ fs(C(30,36,16)); fs(C(98,36,16)); fs(C(64,70,42)); x.fillStyle='#fff1dc'; x.beginPath(); x.ellipse(64,86,18,13,0,0,7); x.fill(); x.fillStyle='#2a1710'; [[50,64],[78,64],[64,80]].forEach(([a,b],i)=>{ x.beginPath(); x.arc(a,b,i===2?6:5,0,7); x.fill(); }); }
+  else if(id==='cloud'){ const p=new Path2D(); p.arc(40,74,22,0,7); p.arc(64,58,30,0,7); p.arc(90,74,22,0,7); x.stroke(p); x.fill(p); }
+  else if(id==='mushroom'){ x.fillStyle='#fff4e4'; const st=new Path2D(); st.roundRect(50,62,28,44,10); x.fill(st); x.stroke(st); x.fillStyle=g; const p=new Path2D(); p.moveTo(14,72); p.bezierCurveTo(14,10,114,10,114,72); p.closePath(); fs(p); x.fillStyle='#fff1dc'; [[44,44],[80,40],[64,60]].forEach(([a,b])=>{ x.beginPath(); x.arc(a,b,8,0,7); x.fill(); }); }
+  else if(id==='snow'){ fs(C(64,88,28)); fs(C(64,44,20)); x.fillStyle='#2a1710'; [[57,40],[71,40]].forEach(([a,b])=>{ x.beginPath(); x.arc(a,b,3.5,0,7); x.fill(); }); x.fillStyle='#ff8a3d'; x.beginPath(); x.moveTo(64,46); x.lineTo(80,50); x.lineTo(64,52); x.fill(); }
+  return k;
+}
+function renderModelGrid(){
+  const g=$('#modelGrid'); if(!g) return; const armedId=armed?.data?.content?.type==='model'?armed.data.content.id:null; g.innerHTML='';
+  Object.entries(MODELS).forEach(([k,n])=>{
+    const b=document.createElement('button'); b.className='item'+(k===armedId?' on':''); b.title=n; b.setAttribute('aria-label',n+' 모형'); b.innerHTML=`<img alt="" src="${modelIcon(k,curColor).toDataURL()}">`;
+    b.onclick=()=>setArmed({data:{kind:'model', content:{type:'model', id:k}, color:curColor, size:1, rot:0}}, b);
+    g.appendChild(b);
+  });
+}
+function renderShapeGrid(){
+  const g=$('#shapeGrid'); const armedId=armed?.data?.content?.type==='shape'?armed.data.content.id:null; g.innerHTML='';
+  Object.entries(SHAPES).forEach(([k,s])=>{
+    const c=contentCanvas({content:{type:'shape',id:k},color:curColor});
+    const b=document.createElement('button'); b.className='item'+(k===armedId?' on':''); b.title=s.name; b.setAttribute('aria-label',s.name); b.innerHTML=`<img alt="" src="${c.toDataURL()}">`;
+    b.onclick=()=>setArmed({data:{kind:'decal', content:{type:'shape', id:k}, color:curColor, size:0.95, rot:0}}, b);
+    g.appendChild(b);
+  });
+}
+
+/* ================= flow ================= */
+function setProgress(n){ ['#pg1','#pg2','#pg3'].forEach((s,i)=>$(s).classList.toggle('on',i===n-1)); }
+function startStudio(flavor){
+  $('#intro').hidden=true; $('#work').hidden=false; mode='studio';
+  if(!sticks.length){ active=makeStick(flavor); } else if(active) setFlavor(active,flavor);
+  $('#panelStudio').hidden=false; $('#panelWrap').hidden=true; $('#panelPhoto').hidden=true; $('#photoFrame').hidden=true; setProgress(1);
+  layoutStudio(); resize(); resetView(); refreshUI(); setHint();
+  requestAnimationFrame(()=>{ resize(); resetView(); });
+  if(sticks.length===1 && !sticks[0].toppings.length) toast(`${FLAVORS[flavor].name} 빼빼로 등장! 글자부터 올려볼까?`);
+}
+
+/* ================= wrapping ================= */
+const RIBBONS=[['체리','#d92b45'],['핑크','#ff8fb0'],['골드','#d9a83a'],['화이트','#fbf7f2'],['네이비','#2b376f'],['민트','#5ccfb1']];
+const WRAP_FORMS=[
+  {id:'box', name:'선물 상자', svg:'<svg viewBox="0 0 48 48" aria-hidden="true"><rect x="9" y="22" width="30" height="20" rx="2" fill="#ff8fb0" stroke="#3b2219" stroke-width="2"/><rect x="21" y="22" width="6" height="20" fill="#e2384d"/><path d="M15 22V8M20 22V5M28 22V6M33 22V9" stroke="#4a2516" stroke-width="3" stroke-linecap="round"/><path d="M15 16V22M33 16V22" stroke="#e3aa5e" stroke-width="3"/></svg>'},
+  {id:'bouquet', name:'빼빼로 꽃다발', svg:'<svg viewBox="0 0 48 48" aria-hidden="true"><path d="M12 6l6 14M24 4v16M36 6l-6 14" stroke="#4a2516" stroke-width="3" stroke-linecap="round"/><path d="M8 18h32L27 44h-6z" fill="#ffc3d2" stroke="#3b2219" stroke-width="2" stroke-linejoin="round"/><circle cx="24" cy="33" r="3" fill="#e2384d"/></svg>'},
+  {id:'bag', name:'투명 봉투', svg:'<svg viewBox="0 0 48 48" aria-hidden="true"><path d="M14 14h20v28H14z" fill="#e9f6ff" stroke="#3b2219" stroke-width="2" opacity=".9"/><path d="M19 40V18M24 40V16M29 40V18" stroke="#4a2516" stroke-width="3" stroke-linecap="round"/><path d="M14 14l8-6h4l8 6" fill="none" stroke="#3b2219" stroke-width="2"/><circle cx="24" cy="9" r="3" fill="#e2384d"/></svg>'},
+];
+const wrap={form:'box', pattern:'heart', ribbon:'#d92b45', tag:'11.11 ♥'};
+let pack=null;
+function syncWrapUI(){
+  document.querySelectorAll('#formGrid button').forEach(b=>b.classList.toggle('on',b.dataset.f===wrap.form));
+  document.querySelectorAll('#patGrid button').forEach(b=>b.classList.toggle('on',b.dataset.p===wrap.pattern));
+  document.querySelectorAll('#ribbonRow .sw').forEach(b=>b.classList.toggle('on',b.dataset.c===wrap.ribbon));
+}
+const patTexCache=new Map();
+function patTex(id,clear,rx,ry){
+  const p=PATTERNS.find(p=>p.id===id); const k=id+clear;
+  if(!patTexCache.has(k)){ const t=texFrom(patternCanvas(p,clear)); t.userData.keep=true; patTexCache.set(k,t); }
+  const t=patTexCache.get(k).clone(); t.wrapS=t.wrapT=THREE.RepeatWrapping; t.repeat.set(Math.max(1,Math.round(rx)), p.noRepeatY?1:Math.max(1,Math.round(ry))); t.needsUpdate=true; return t;
+}
+function ribbonMat(c){ return new THREE.MeshPhysicalMaterial({color:c, roughness:.38, sheen:1, sheenColor:new THREE.Color('#ffffff'), sheenRoughness:.35, clearcoat:.3}); }
+function makeBow(c,s=1){
+  const g=new THREE.Group(), m=ribbonMat(c), loop=new THREE.TorusGeometry(0.42,0.12,14,44);
+  for(const sg of [-1,1]){ const l=new THREE.Mesh(loop,m); l.scale.set(1,.62,.5); l.position.x=sg*0.42; l.rotation.z=-sg*0.35; g.add(l);
+    const tail=new THREE.Mesh(new THREE.BoxGeometry(0.2,0.95,0.04),m); tail.position.set(sg*0.2,-0.5,0); tail.rotation.z=sg*0.32; g.add(tail); }
+  const knot=new THREE.Mesh(new THREE.SphereGeometry(0.17,20,14),m); knot.scale.set(1,.9,.7); g.add(knot);
+  g.scale.setScalar(s); return g;
+}
+function makeTag(text){
+  const c=mk(256,360), x=c.getContext('2d');
+  x.fillStyle='#fffaf0'; x.strokeStyle='#d6b588'; x.lineWidth=8; x.beginPath(); x.moveTo(60,8); x.lineTo(196,8); x.lineTo(248,70); x.lineTo(248,352); x.lineTo(8,352); x.lineTo(8,70); x.closePath(); x.fill(); x.stroke();
+  x.globalCompositeOperation='destination-out'; circle(x,128,62,18); x.globalCompositeOperation='source-over';
+  x.strokeStyle='#d6b588'; x.lineWidth=4; x.beginPath(); x.arc(128,62,20,0,7); x.stroke();
+  x.fillStyle='#e2384d'; x.font='700 34px "Gaegu", cursive'; x.textAlign='center'; x.fillText('for you',128,130);
+  x.fillStyle='#3b2219'; let fs=72; x.font=`700 ${fs}px "Gaegu","Jua",cursive`; while(x.measureText(text).width>214 && fs>26){ fs-=4; x.font=`700 ${fs}px "Gaegu","Jua",cursive`; }
+  x.textBaseline='middle'; x.fillText(text,128,240);
+  const m=new THREE.Mesh(new THREE.PlaneGeometry(0.62,0.87), new THREE.MeshStandardMaterial({map:texFrom(c), alphaTest:.5, side:THREE.DoubleSide, roughness:.8}));
+  return m;
+}
+function placeSticksSunflower(maxR, baseY, leanK){
+  const n=sticks.length, up=new THREE.Vector3(0,1,0);
+  sticks.forEach((s,i)=>{ const a=i*2.39996+0.4, rr=n===1?0:Math.min(maxR,(0.18+0.2*Math.sqrt(i))*(i?1:0.4));
+    s.group.position.set(Math.cos(a)*rr, baseY, Math.sin(a)*rr);
+    const lean=0.03+rr*leanK; s.group.quaternion.setFromUnitVectors(up,new THREE.Vector3(Math.cos(a)*Math.sin(lean),Math.cos(lean),Math.sin(a)*Math.sin(lean)));
+    s.group.rotation.y+=0; });
+}
+async function buildWrap(){
+  if(pack){ wrapRoot.remove(pack); disposeObj(pack); }
+  pack=new THREE.Group(); wrapRoot.add(pack);
+  const n=sticks.length, rib=wrap.ribbon; let tagPos, tagRot=0, centerY;
+  sticks.forEach(s=>{ wrapRoot.add(s.group); s.blob.visible=false; s.group.quaternion.identity(); });
+  if(wrap.form==='box'){
+    const cols=Math.min(n,5), rows=Math.ceil(n/cols), W=cols*0.8+0.7, D=rows*0.75+0.75, H=3.1;
+    sticks.forEach((s,i)=>{ const c=i%cols, r=Math.floor(i/cols); const R=seeded(s.id*7);
+      s.group.position.set((c-(cols-1)/2)*0.8,0.06+(rows-1-r)*0.45,(r-(rows-1)/2)*0.75); s.group.rotation.set((R()-.5)*0.08,(R()-.5)*0.6,(R()-.5)*0.1); });
+    const inv=new THREE.MeshBasicMaterial({visible:false});
+    const fm=new THREE.MeshStandardMaterial({map:patTex(wrap.pattern,false,W/2.2,H/2.2),roughness:.65,side:THREE.DoubleSide});
+    const sm=new THREE.MeshStandardMaterial({map:patTex(wrap.pattern,false,D/2.2,H/2.2),roughness:.65,side:THREE.DoubleSide});
+    const box=new THREE.Mesh(new THREE.BoxGeometry(W,H,D).translate(0,H/2,0),[sm,sm,inv,fm,fm,fm]); pack.add(box);
+    const rimM=new THREE.MeshStandardMaterial({color:'#fffaf6',roughness:.5});
+    for(const [w,d,x,z] of [[W+0.06,0.06,0,D/2],[W+0.06,0.06,0,-D/2],[0.06,D,W/2,0],[0.06,D,-W/2,0]]){ const r=new THREE.Mesh(new THREE.BoxGeometry(w,0.08,d),rimM); r.position.set(x,H,z); pack.add(r); }
+    const rm=ribbonMat(rib);
+    const band=new THREE.Mesh(new THREE.BoxGeometry(W+0.03,0.4,D+0.03).translate(0,H*0.5,0),[rm,rm,inv,inv,rm,rm]); pack.add(band);
+    const vband=new THREE.Mesh(new THREE.BoxGeometry(0.4,H+0.01,D+0.03).translate(0,H/2,0),[inv,inv,inv,rm,rm,rm]); pack.add(vband);
+    const bow=makeBow(rib,1); bow.position.set(0,H*0.5+0.05,D/2+0.12); pack.add(bow);
+    tagPos=[0.62,H*0.5-0.62,D/2+0.06]; tagRot=-0.18; centerY=4.3; wrapH=9.2;
+  } else if(wrap.form==='bouquet'){
+    const h=4.6, rb=0.34, rt=1.75+Math.min(n,10)*0.07;
+    placeSticksSunflower(rt-1.1,0.55,0.32);
+    const cone=new THREE.Mesh(new THREE.CylinderGeometry(rt,rb,h,72,1,true).translate(0,h/2,0), new THREE.MeshStandardMaterial({map:patTex(wrap.pattern,false,5,2.4),roughness:.7,side:THREE.DoubleSide}));
+    pack.add(cone);
+    const tissue=new THREE.Mesh(new THREE.CylinderGeometry(rt*0.97,rb*0.9,h*1.14,11,1,true).translate(0,h*1.14/2,0), new THREE.MeshStandardMaterial({color:'#fff1f5',roughness:.9,side:THREE.DoubleSide,flatShading:true}));
+    tissue.rotation.y=0.3; pack.add(tissue);
+    const ty=1.15, tr=rb+(rt-rb)*(ty/h)+0.05;
+    const tor=new THREE.Mesh(new THREE.TorusGeometry(tr,0.075,12,72),ribbonMat(rib)); tor.rotation.x=Math.PI/2; tor.position.y=ty; pack.add(tor);
+    const bow=makeBow(rib,0.95); bow.position.set(0,ty+0.05,tr+0.1); bow.rotation.x=-0.15; pack.add(bow);
+    tagPos=[0.55,ty-0.65,tr+0.1]; tagRot=-0.2; centerY=4.5; wrapH=9.6;
+  } else {
+    const rad=n===1?0.72:0.6+0.27*Math.sqrt(n), hb=8.5;
+    placeSticksSunflower(rad-0.42,0.05,0.04);
+    const cm=new THREE.MeshPhysicalMaterial({map:patTex(wrap.pattern,true,Math.round(Math.PI*2*rad/1.3),5),transparent:true,roughness:.12,clearcoat:1,clearcoatRoughness:.1,side:THREE.DoubleSide,depthWrite:false});
+    const body=new THREE.Mesh(new THREE.CylinderGeometry(rad,rad,hb,56,1,true).translate(0,hb/2,0),cm); body.renderOrder=3; pack.add(body);
+    const bottom=new THREE.Mesh(new THREE.CircleGeometry(rad,56).rotateX(-Math.PI/2).translate(0,0.01,0),cm); pack.add(bottom);
+    const neck=new THREE.Mesh(new THREE.CylinderGeometry(0.2,rad,0.9,56,1,true).translate(0,hb+0.45,0),cm); neck.renderOrder=3; pack.add(neck);
+    const frill=new THREE.Mesh(new THREE.CylinderGeometry(rad*0.85,0.2,1.1,13,1,true).translate(0,hb+0.9+0.55,0),new THREE.MeshPhysicalMaterial({map:patTex(wrap.pattern,true,3,1),transparent:true,roughness:.1,clearcoat:1,side:THREE.DoubleSide,depthWrite:false,flatShading:true})); frill.renderOrder=3; pack.add(frill);
+    const tie=new THREE.Mesh(new THREE.TorusGeometry(0.23,0.07,12,40),ribbonMat(rib)); tie.rotation.x=Math.PI/2; tie.position.y=hb+0.9; pack.add(tie);
+    const bow=makeBow(rib,0.8); bow.position.set(0,hb+0.92,0.3); pack.add(bow);
+    tagPos=[0.38,hb+0.3,0.42]; tagRot=-0.15; centerY=5.3; wrapH=12.2;
+  }
+  const blob=new THREE.Mesh(new THREE.PlaneGeometry(5,5).rotateX(-Math.PI/2),blobMat); blob.position.y=0.005; pack.add(blob);
+  goal.set(0,centerY-LEN/2,0);
+  const myPack=pack;
+  try{ await document.fonts.load('700 72px "Gaegu"', wrap.tag||'a'); }catch(_){}
+  if(pack!==myPack) return;
+  if(wrap.tag.trim()){ const tag=makeTag(wrap.tag.trim()); tag.position.set(...tagPos); tag.rotation.z=tagRot; pack.add(tag); }
+}
+function enterWrap(){
+  setArmed(null); select(null); mode='wrap'; marker.visible=false; if(marker.parent) marker.parent.remove(marker);
+  floor.visible=true; $('#panelStudio').hidden=true; $('#panelWrap').hidden=false; setProgress(2);
+  buildWrap(); syncWrapUI(); setHint();
+  // set camera after goal known
+  setTimeout(resetView,0);
+  controls.autoRotate=true; $('#vSpin').classList.add('on');
+}
+function leaveWrap(){
+  if(pack){ wrapRoot.remove(pack); disposeObj(pack); pack=null; }
+  mode='studio'; controls.autoRotate=false; $('#vSpin').classList.remove('on');
+  $('#panelStudio').hidden=false; $('#panelWrap').hidden=true; $('#panelPhoto').hidden=true; $('#photoFrame').hidden=true; setProgress(1);
+  sticks.forEach(s=>s.group.rotation.set(0,0,0));
+  layoutStudio(); setHint(); setTimeout(resetView,0);
+}
+
+/* ================= finish ================= */
+function enterPhoto(){
+  mode='photo'; controls.autoRotate=false; $('#vSpin').classList.remove('on');
+  $('#panelWrap').hidden=true; $('#panelPhoto').hidden=false; $('#photoFrame').hidden=false; placeFrame(); setProgress(3); setHint();
+}
+function wrapText(x,text,maxW){
+  const out=[];
+  for(const para of text.split('\n')){
+    let line='';
+    for(const word of para.split(/(\s+)/)){
+      if(x.measureText(line+word).width<=maxW){ line+=word; continue; }
+      if(line.trim()) { out.push(line.trimEnd()); line=''; }
+      let w=word.trimStart();
+      for(const ch of w){ if(x.measureText(line+ch).width>maxW && line){ out.push(line); line=ch; } else line+=ch; }
+    }
+    out.push(line.trimEnd());
+  }
+  return out;
+}
+async function finish(){
+  renderer.render(scene,camera);
+  try{ await document.fonts.load('60px "Jua"','빼빼로'); await document.fonts.load('700 46px "Gaegu"','부산 마닐라 가나다'); }catch(_){}
+  const to=$('#ltTo').value.trim(), body=$('#ltBody').value.replace(/\s+$/,''), from=$('#ltFrom').value.trim();
+  const hasL=!!(to||body.trim()||from), LH=64, TX=110, TW=860;
+  const mx=mk(4,4).getContext('2d'); mx.font='700 46px "Gaegu", cursive';
+  const lines=body.trim()?wrapText(mx,body,TW):[];
+  const base=1270, letterH=hasL ? 50+(to?LH+10:0)+lines.length*LH+(from?LH+20:0)+40 : 0, H=base+(hasL?letterH+50:20);
+  const src=renderer.domElement, out=mk(1080,H), x=out.getContext('2d');
+  const g=x.createLinearGradient(0,0,0,H); g.addColorStop(0,'#fff3f6'); g.addColorStop(1,'#ffd2de'); x.fillStyle=g; x.fillRect(0,0,1080,H);
+  x.fillStyle='rgba(226,56,77,.06)'; for(let i=-30;i<50;i++){ x.save(); x.translate(i*60,0); x.rotate(Math.PI/4); x.fillRect(0,-400,8,H*2); x.restore(); }
+  const q=frameRect(src.width,src.height);
+  x.save(); x.beginPath(); x.roundRect(40,30,1000,1028,36); x.clip(); x.fillStyle='rgba(255,255,255,.35)'; x.fillRect(40,30,1000,1028);
+  x.drawImage(src,q.x,q.y,q.w,q.h,40,30,1000,1028); x.restore();
+  x.fillStyle='#3b2219'; x.textAlign='center'; x.font='64px "Jua", sans-serif'; x.fillText('Happy 11.11',540,1150);
+  x.fillStyle='#e2384d'; x.font='700 40px "Gaegu", cursive'; x.fillText('부산에서 마닐라까지, 내 마음 한가득',540,1210);
+  if(hasL){
+    const y0=base; x.fillStyle='#fffaf6'; x.strokeStyle='#f0c0cd'; x.lineWidth=3; x.beginPath(); x.roundRect(60,y0,960,letterH,28); x.fill(); x.stroke();
+    let y=y0+50+46; x.textAlign='left'; x.font='700 46px "Gaegu", cursive';
+    const rule=yy=>{ x.strokeStyle='#f6d6de'; x.lineWidth=2; x.beginPath(); x.moveTo(TX,yy+16); x.lineTo(TX+TW,yy+16); x.stroke(); };
+    if(to){ x.fillStyle='#e2384d'; x.fillText('To. '+to,TX,y); y+=LH+10; }
+    x.fillStyle='#3b2219'; for(const l of lines){ rule(y); x.fillText(l,TX,y); y+=LH; }
+    if(from){ y+=20; x.fillStyle='#e2384d'; x.textAlign='right'; x.fillText('From. '+from,TX+TW,y); }
+  }
+  $('#finalImg').src=out.toDataURL('image/jpeg',0.92);
+  $('#final').hidden=false; $('#final').scrollTop=0; confetti();
+}
+function confetti(){
+  if(matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  const box=$('#confetti'); box.innerHTML='';
+  const cs=['#e2384d','#ff8fb0','#e6b450','#ffffff','#7fdcc4'];
+  for(let i=0;i<46;i++){ const s=document.createElement('i'); s.textContent=i%3?'♥':'✦'; s.style.left=Math.random()*100+'%'; s.style.setProperty('--c',cs[i%cs.length]); s.style.setProperty('--s',(14+Math.random()*22)+'px'); s.style.setProperty('--r',(Math.random()*720-360)+'deg'); s.style.animationDelay=(Math.random()*1.2)+'s'; box.appendChild(s); }
+  setTimeout(()=>box.innerHTML='',5200);
+}
+
+buildUI();
+/* ================= loop ================= */
+function resize(){ const r=stage.getBoundingClientRect(); if(!r.width||!r.height) return; renderer.setSize(r.width,r.height,false); camera.aspect=r.width/r.height; camera.updateProjectionMatrix(); placeFrame(); }
+const PHOTO_A=1000/1028;
+function frameRect(w,h){ let fh=h*0.86, fw=fh*PHOTO_A; if(fw>w*0.9){ fw=w*0.9; fh=fw/PHOTO_A; } return {x:(w-fw)/2, y:(h-fh)/2, w:fw, h:fh}; }
+function placeFrame(){ const f=$('#photoFrame'); if(!f || f.hidden) return; const r=stage.getBoundingClientRect(), q=frameRect(r.width,r.height);
+  Object.assign(f.style,{left:q.x+'px',top:q.y+'px',width:q.w+'px',height:q.h+'px'}); }
+new ResizeObserver(resize).observe(stage);
+const tmp=new THREE.Vector3();
+renderer.setAnimationLoop(t=>{
+  if(mode==='intro') return;
+  const time=t/1000;
+  tmp.copy(goal).sub(controls.target);
+  if(tmp.lengthSq()>1e-6){ tmp.multiplyScalar(.12); controls.target.add(tmp); camera.position.add(tmp); }
+  controls.update();
+  for(const m of twinkles){ m.scale.setScalar((m.userData.base||1)*(0.55+0.6*Math.abs(Math.sin(time*3+m.userData.phase)))); m.rotation.z+=0.02; }
+  if(marker.visible){ marker.rotation.y=time*2; marker.position.y=LEN+0.75+Math.sin(time*3)*0.12; }
+  if(selected && selected.mesh){ selHelper.setFromObject(selected.mesh); }
+  renderer.render(scene,camera);
+});
+$('#loading').remove();
+
+/* ================= intro bits ================= */
+function clocks(){
+  const now=new Date(), f=tz=>new Intl.DateTimeFormat('ko-KR',{timeZone:tz,hour:'2-digit',minute:'2-digit',hour12:false}).format(now);
+  $('#clkS').textContent=f('Asia/Seoul'); $('#clkM').textContent=f('Asia/Manila');
+  const [y,m,d]=new Intl.DateTimeFormat('en-CA',{timeZone:'Asia/Seoul',year:'numeric',month:'2-digit',day:'2-digit'}).format(now).split('-').map(Number);
+  const diff=Math.round((Date.UTC(y,10,11)-Date.UTC(y,m-1,d))/864e5);
+  $('#dday').textContent= diff===0?'오늘은 빼빼로 데이!': diff>0?`빼빼로 데이 D-${diff}`:'조금 늦은 빼빼로 데이';
+}
+clocks(); setInterval(clocks,15000);
+(function rain(){ if(matchMedia('(prefers-reduced-motion: reduce)').matches) return; const r=$('#rain'), cs=['#4a2516','#f3e6cf','#5a3220','#ff8fb0'];
+  for(let i=0;i<14;i++){ const s=document.createElement('i'); s.style.left=(Math.random()*100)+'%'; s.style.setProperty('--c',cs[i%4]); s.style.setProperty('--r',(Math.random()*200-100)+'deg'); s.style.animationDuration=(9+Math.random()*9)+'s'; s.style.animationDelay=(-Math.random()*18)+'s'; r.appendChild(s); } })();
+FONTS.forEach(f=>{ document.fonts.load(`${f.w} 40px ${f.css}`,'사랑해 LOVE 11.11').catch(()=>{}); });
+</script>
+
+</body>
+</html>
