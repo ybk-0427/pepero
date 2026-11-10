@@ -36,6 +36,9 @@ button:focus-visible,input:focus-visible{outline:3px solid var(--cherry);outline
 .intro-top{display:flex;flex-wrap:wrap;align-items:center;gap:10px;font-size:13px;color:var(--cocoa-2)}
 .clock{background:var(--paper);border:1.5px solid var(--line);border-radius:999px;padding:5px 12px;font-variant-numeric:tabular-nums}
 .clock b{font-family:var(--f-display);font-weight:400;color:var(--cocoa);margin-left:4px}
+.clock{display:flex;align-items:center;gap:2px}
+.clock select{font:inherit;color:var(--cocoa-2);background:transparent;border:0;padding:0 2px;cursor:pointer;max-width:9em}
+.clock select:focus-visible{outline:2px solid var(--cherry);border-radius:6px}
 .dist{display:flex;align-items:center;gap:6px;font-family:var(--f-hand);font-size:17px;font-weight:700}
 .dist::before,.dist::after{content:"";width:28px;border-top:2px dashed var(--cherry);opacity:.6}
 .intro-grid{display:grid;grid-template-columns:1.05fr 1fr;gap:40px;align-items:center;margin-top:44px}
@@ -202,15 +205,15 @@ input[type=range]{accent-color:var(--cherry);width:100%;min-width:0}
   <div class="rain" id="rain" aria-hidden="true"></div>
   <div class="intro-inner">
     <header class="intro-top">
-      <span class="clock">부산 <b id="clkS">--:--</b></span>
-      <span class="dist">2,400km</span>
-      <span class="clock">마닐라 <b id="clkM">--:--</b></span>
+      <span class="clock"><select id="cityA" aria-label="내가 있는 도시"></select><b id="clkA">--:--</b></span>
+      <span class="dist" id="dist">같은 하늘 아래</span>
+      <span class="clock"><select id="cityB" aria-label="선물 받을 사람이 있는 도시"></select><b id="clkB">--:--</b></span>
     </header>
     <div class="intro-grid">
       <div>
         <span class="eyebrow" id="dday">빼빼로 데이</span>
         <h1>너만의<br><em>빼빼로</em> 공방</h1>
-        <p class="lede">11월 11일에 옆에 있어 주지 못해서, 대신 같이 만드는 빼빼로를 준비했어. 맛을 고르고, 글자랑 토핑을 올리고, 예쁘게 포장하면 완성이야.</p>
+        <p class="lede">멀리 있어도, 가까이 있어도 빼빼로 데이엔 마음을 전하자. 맛을 고르고, 글자랑 토핑을 올리고, 예쁘게 포장해서 사진으로 보내면 완성!</p>
         <ol class="steps">
           <li><span>1</span>맛 고르기</li>
           <li><span>2</span>토핑 꾸미기</li>
@@ -325,6 +328,10 @@ input[type=range]{accent-color:var(--cherry);width:100%;min-width:0}
         <h2>사진 각도 고르기</h2>
         <p class="tip">화면을 끌어서 돌리고, 휠이나 두 손가락으로 확대해서 점선 틀 안에 예쁘게 담아줘. 두 손가락으로 끌면 위치도 옮길 수 있어.</p>
         <div class="seg three" id="angleSeg"><button data-a="front">정면</button><button data-a="high">위에서</button><button data-a="side">옆에서</button></div>
+      </section>
+      <section class="blk">
+        <h2>사진 아래 한 줄</h2>
+        <input class="txt-in" id="capIn" maxlength="28" placeholder="내 마음 한가득" aria-label="사진 아래 들어갈 문구" style="font-size:17px">
       </section>
       <section class="blk">
         <h2>편지 쓰기</h2>
@@ -1122,6 +1129,7 @@ function leaveWrap(){
 /* ================= finish ================= */
 function enterPhoto(){
   mode='photo'; controls.autoRotate=false; $('#vSpin').classList.remove('on');
+  if(!capEdited){ const a=$('#cityA').value, b=$('#cityB').value; $('#capIn').value = a!==b ? `${a}에서 ${b}까지, 내 마음 한가득` : '내 마음 한가득'; }
   $('#panelWrap').hidden=true; $('#panelPhoto').hidden=false; $('#photoFrame').hidden=false; placeFrame(); setProgress(3); setHint();
 }
 function wrapText(x,text,maxW){
@@ -1153,7 +1161,7 @@ async function finish(){
   x.save(); x.beginPath(); x.roundRect(40,30,1000,1028,36); x.clip(); x.fillStyle='rgba(255,255,255,.35)'; x.fillRect(40,30,1000,1028);
   x.drawImage(src,q.x,q.y,q.w,q.h,40,30,1000,1028); x.restore();
   x.fillStyle='#3b2219'; x.textAlign='center'; x.font='64px "Jua", sans-serif'; x.fillText('Happy 11.11',540,1150);
-  x.fillStyle='#e2384d'; x.font='700 40px "Gaegu", cursive'; x.fillText('부산에서 마닐라까지, 내 마음 한가득',540,1210);
+  x.fillStyle='#e2384d'; x.font='700 40px "Gaegu", cursive'; x.fillText($('#capIn').value.trim()||'내 마음 한가득',540,1210);
   if(hasL){
     const y0=base; x.fillStyle='#fffaf6'; x.strokeStyle='#f0c0cd'; x.lineWidth=3; x.beginPath(); x.roundRect(60,y0,960,letterH,28); x.fill(); x.stroke();
     let y=y0+50+46; x.textAlign='left'; x.font='700 46px "Gaegu", cursive';
@@ -1196,11 +1204,33 @@ renderer.setAnimationLoop(t=>{
 $('#loading').remove();
 
 /* ================= intro bits ================= */
+const CITIES=[
+ ['서울','Asia/Seoul',37.57,126.98],['부산','Asia/Seoul',35.18,129.08],['인천','Asia/Seoul',37.46,126.71],['대구','Asia/Seoul',35.87,128.6],['대전','Asia/Seoul',36.35,127.38],['광주','Asia/Seoul',35.16,126.85],['울산','Asia/Seoul',35.54,129.31],['수원','Asia/Seoul',37.26,127.03],['춘천','Asia/Seoul',37.88,127.73],['전주','Asia/Seoul',35.82,127.15],['제주','Asia/Seoul',33.5,126.53],
+ ['도쿄','Asia/Tokyo',35.68,139.69],['오사카','Asia/Tokyo',34.69,135.5],['후쿠오카','Asia/Tokyo',33.59,130.4],['베이징','Asia/Shanghai',39.9,116.4],['상하이','Asia/Shanghai',31.23,121.47],['타이베이','Asia/Taipei',25.03,121.56],['홍콩','Asia/Hong_Kong',22.32,114.17],
+ ['마닐라','Asia/Manila',14.6,120.98],['세부','Asia/Manila',10.32,123.89],['방콕','Asia/Bangkok',13.75,100.5],['하노이','Asia/Ho_Chi_Minh',21.03,105.85],['다낭','Asia/Ho_Chi_Minh',16.05,108.2],['호찌민','Asia/Ho_Chi_Minh',10.82,106.63],['싱가포르','Asia/Singapore',1.35,103.82],['쿠알라룸푸르','Asia/Kuala_Lumpur',3.14,101.69],['자카르타','Asia/Jakarta',-6.2,106.85],['발리','Asia/Makassar',-8.65,115.22],
+ ['시드니','Australia/Sydney',-33.87,151.21],['멜버른','Australia/Melbourne',-37.81,144.96],['오클랜드','Pacific/Auckland',-36.85,174.76],['두바이','Asia/Dubai',25.2,55.27],
+ ['런던','Europe/London',51.5,-0.13],['파리','Europe/Paris',48.86,2.35],['베를린','Europe/Berlin',52.52,13.4],['프라하','Europe/Prague',50.08,14.44],['로마','Europe/Rome',41.9,12.5],['마드리드','Europe/Madrid',40.42,-3.7],
+ ['뉴욕','America/New_York',40.71,-74.0],['보스턴','America/New_York',42.36,-71.06],['워싱턴','America/New_York',38.9,-77.04],['시카고','America/Chicago',41.88,-87.63],['댈러스','America/Chicago',32.78,-96.8],['LA','America/Los_Angeles',34.05,-118.24],['샌프란시스코','America/Los_Angeles',37.77,-122.42],['시애틀','America/Los_Angeles',47.6,-122.33],['토론토','America/Toronto',43.65,-79.38],['밴쿠버','America/Vancouver',49.28,-123.12],['하와이','Pacific/Honolulu',21.31,-157.86]
+];
+const cityOf=n=>CITIES.find(c=>c[0]===n)||CITIES[0];
+function km(a,b){ const r=Math.PI/180, dLa=(b[2]-a[2])*r, dLo=(b[3]-a[3])*r; const h=Math.sin(dLa/2)**2+Math.cos(a[2]*r)*Math.cos(b[2]*r)*Math.sin(dLo/2)**2; return 6371*2*Math.asin(Math.sqrt(h)); }
+let capEdited=false; $('#capIn').addEventListener('input',()=>capEdited=true);
+(function initCities(){
+  const store=(k,v)=>{ try{ v===undefined ? (v=localStorage.getItem(k)) : localStorage.setItem(k,v); }catch(_){ v=null; } return v; };
+  let local='Asia/Seoul'; try{ local=Intl.DateTimeFormat().resolvedOptions().timeZone||local; }catch(_){}
+  const guess=(CITIES.find(c=>c[1]===local)||CITIES[0])[0];
+  for(const id of ['cityA','cityB']){ const sel=$('#'+id); CITIES.forEach(c=>{ const o=document.createElement('option'); o.value=o.textContent=c[0]; sel.appendChild(o); }); }
+  $('#cityA').value=store('pp-cityA')||guess; $('#cityB').value=store('pp-cityB')||guess;
+  for(const id of ['cityA','cityB']) $('#'+id).onchange=e=>{ store('pp-'+id,e.target.value); capEdited=false; clocks(); };
+})();
 function clocks(){
   const now=new Date(), f=tz=>new Intl.DateTimeFormat('ko-KR',{timeZone:tz,hour:'2-digit',minute:'2-digit',hour12:false}).format(now);
-  $('#clkS').textContent=f('Asia/Seoul'); $('#clkM').textContent=f('Asia/Manila');
-  const [y,m,d]=new Intl.DateTimeFormat('en-CA',{timeZone:'Asia/Seoul',year:'numeric',month:'2-digit',day:'2-digit'}).format(now).split('-').map(Number);
-  const diff=Math.round((Date.UTC(y,10,11)-Date.UTC(y,m-1,d))/864e5);
+  const A=cityOf($('#cityA').value), B=cityOf($('#cityB').value);
+  $('#clkA').textContent=f(A[1]); $('#clkB').textContent=f(B[1]);
+  const d=km(A,B); $('#dist').textContent = d<1 ? '같은 하늘 아래' : d<100 ? `${Math.max(1,Math.round(d))}km` : `${(Math.round(d/100)*100).toLocaleString('en-US')}km`;
+  const y=now.getFullYear(), today=Date.UTC(y,now.getMonth(),now.getDate());
+  let diff=Math.round((Date.UTC(y,10,11)-today)/864e5);
+  if(diff<-7) diff=Math.round((Date.UTC(y+1,10,11)-today)/864e5);
   $('#dday').textContent= diff===0?'오늘은 빼빼로 데이!': diff>0?`빼빼로 데이 D-${diff}`:'조금 늦은 빼빼로 데이';
 }
 clocks(); setInterval(clocks,15000);
